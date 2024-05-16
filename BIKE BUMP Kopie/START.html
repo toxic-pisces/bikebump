@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bike Bump</title>
+<style>
+    @font-face {
+        font-family: 'Nexa';
+        src: url('Nexa Bold.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Nexa', sans-serif;
+        background-color: black;
+        color: white;
+    }
+    #bikeImage {
+        max-width: 50%;
+        max-height: 80%;
+    }
+
+    #textfeld {
+        font-size: 36px;
+        color:white;
+    }
+    #textfeld2 {
+        position: absolute;
+        bottom:10px;
+        right:10px;
+        font-size: 20pxpx;
+        color:#555;
+    }
+    hr {
+    width: 20%; /* Breite des horizontalen Strichs */
+    height: 4px; /* Höhe des horizontalen Strichs */
+    background-color: #555; /* Farbe des horizontalen Strichs */
+    border: none; /* Rand des horizontalen Strichs entfernen */
+}
+</style>
+</head>
+<body>
+    <img id="bikeImage" src="BIKE_BUMP.png" alt="Bike Bump">
+    <br>
+    <hr>
+    <br>
+    <div id="textfeld">created by CE</div>
+    <div id="textfeld2">Version 0.1</div>
+
+    <script>
+        setTimeout(function() {
+            window.location.href = "MARKER.html";
+        }, 8000); // Weiterleitung nach 8 Sekunden
+    </script>
+</body>
+</html>
