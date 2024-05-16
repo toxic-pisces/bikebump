@@ -46,6 +46,10 @@
     background-color: #555; /* Farbe des horizontalen Strichs */
     border: none; /* Rand des horizontalen Strichs entfernen */
 }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>
 </head>
 <body>
@@ -57,6 +61,11 @@
     <div id="textfeld2">Version 0.1</div>
 
     <script>
+        window.onload = function() {
+            var img = document.getElementById('bikeImage');
+            img.style.animation = "spin 5s linear infinite";
+        };
+
         setTimeout(function() {
             window.location.href = "MARKER.html";
         }, 8000); // Weiterleitung nach 8 Sekunden
