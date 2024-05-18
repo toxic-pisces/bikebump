@@ -11,7 +11,10 @@
         font-weight: normal;
         font-style: normal;
     }
-
+    :root {
+        --logo-width: 314px;
+        --logo-height: 313px;
+    }
     body {
         margin: 0;
         padding: 0;
@@ -24,14 +27,30 @@
         background-color: black;
         color: white;
     }
-    #bikeImage {
-        max-width: 50%;
-        max-height: 80%;
+
+    #TurningWheel {
+        position: fixed;
+        top: calc(50% - var(--logo-height) / 2);
+        left: calc(50% - var(--logo-width) / 2);
+        transform: translate(-50%, -50%);
+        margin: auto;
+    }
+    #BikeBumpLogo {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* max-width: 50%;
+        max-height: 50%; */
     }
 
-    #textfeld {
+    #CETextField {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
         font-size: 36px;
-        color:white;
+        color: white;
     }
     #textfeld2 {
         position: absolute;
@@ -40,12 +59,16 @@
         font-size: 20pxpx;
         color:#555;
     }
-    hr {
-    width: 20%; /* Breite des horizontalen Strichs */
-    height: 4px; /* Höhe des horizontalen Strichs */
-    background-color: #555; /* Farbe des horizontalen Strichs */
-    border: none; /* Rand des horizontalen Strichs entfernen */
-}
+    hr {   
+        position: absolute;
+        bottom: 85px;
+        width: 20%; /* Breite des horizontalen Strichs */
+        height: 4px; /* Höhe des horizontalen Strichs */
+        background-color: #555; /* Farbe des horizontalen Strichs */
+        border: none; /* Rand des horizontalen Strichs entfernen */
+        
+    }
+
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
@@ -53,16 +76,17 @@
 </style>
 </head>
 <body>
-    <img id="bikeImage" src="BIKE_BUMP.png" alt="Bike Bump">
+    <img id="TurningWheel" src="logoRad.png" alt="Bike Bump">
+    <img id="BikeBumpLogo" src="logoSchrift.png" alt="Bike Bump">
     <br>
     <hr>
     <br>
-    <div id="textfeld">created by CE</div>
+    <div id="CETextField">created by CE</div>
     <div id="textfeld2">Version 0.1</div>
 
     <script>
         window.onload = function() {
-            var img = document.getElementById('bikeImage');
+            var img = document.getElementById('TurningWheel');
             img.style.animation = "spin 5s linear infinite";
         };
 

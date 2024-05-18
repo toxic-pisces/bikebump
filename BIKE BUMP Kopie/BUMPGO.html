@@ -122,6 +122,16 @@
                 }, 4000);
             }, 2000);
         }
+
+        function rotateElement(elementId, duration = 2000) {
+            var element = document.getElementById(elementId);
+            var degree = 0, timer;
+            timer = setInterval(function() {
+            degree = (degree + 1) % 360;
+            element.style.transform = 'rotate(' + degree + 'deg)';
+            }, duration / 360);
+            return timer;
+        }
     </script>
 </body>
 </html>
