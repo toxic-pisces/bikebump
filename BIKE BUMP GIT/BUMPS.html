@@ -20,32 +20,37 @@
     }
 
     table {
-        width: 50%;
+        width: 40%;
+        max-width: 300px;
         height: auto;
         border-collapse: collapse;
         position: fixed;
         z-index: -1;
         pointer-events: none;
-        top: calc(25% - 50px); /* Verschiebt die Tabelle 50 Pixel nach oben */
+
+
+  
+
     }
 
     #table1 {
-        top: calc(28% - 80px); /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
+        bottom: -40px; /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
         left: 0;
+
     }
 
     #table2 {
-        top: calc(28% - 80px); /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
+        bottom: -40px; /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
         left: 6%;
     }
 
     #table3 {
-        top: calc(28% - 80px); /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
+        bottom: -40px; /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
         right: 0;
     }
 
     #table4 {
-        top: calc(28% - 80px); /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
+        bottom: -40px; /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
         right: 6%;
     }
 
@@ -58,7 +63,7 @@
         box-sizing: border-box;
     }
 
-    #textfeld, #textfeld2 {
+    #textfeld, #textfeld2,#textfeld3 {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
@@ -73,13 +78,19 @@
     #textfeld2 {
         top: 60px;
     }
+    #textfeld3 {
+        top: 90px;
+        text-align: center;
+    }
+
 
     #stift {
         position: fixed;
-        bottom: 20%;
+        bottom: 15%;
         left: 50%;
         transform: translateX(-50%);
-        width: 550px;
+        width: 70%;
+        max-width: 330px;
     }
 
     #backButton, #voteButton {
@@ -120,7 +131,7 @@
         <tr>
             <td style="background-image: url('held.png');"></td>
             <td style="background-image: url('ritter.png');"></td>
-            <td style="background-image: url('oma.png');"></td>
+            <td></td>
             <td></td>
         </tr>
         <tr>
@@ -195,7 +206,7 @@
     <table id="table3">
         <tr>
             <td></td>
-            <td style="background-image: url('ritter.png');"></td>
+            <td></td>
             <td style="background-image: url('oma.png');"></td>
             <td style="background-image: url('held.png');"></td>
         </tr>
@@ -273,10 +284,13 @@
         Baustelle THA
     </div>
     <div id="textfeld2">
-        Info der Stadt: NOCH BIS ZUM 27.04.2025
+        Info der Stadt:
     </div>
-    <img id="stift" src="Stift.png" alt="Stift">
-    <button id="backButton" onclick="goBack()">Zurück</button>
+    <div id="textfeld3">
+        NOCH BIS ZUM 27.04.2025
+    </div>
+    <img id="stift" src="stift.png" alt="Stift">
+    <button id="backButton" onclick="goBack()">ZURÜCK</button>
     <button id="voteButton" onclick="vote(); changeColor(this),vote2()">STIMMEN: <span id="voteCount">2409</span></button>
 
     <script>
