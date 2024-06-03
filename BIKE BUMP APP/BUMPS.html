@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meine Webseite</title>
+<style>
+    @font-face {
+        font-family: 'Nexa';
+        src: url('Nexa Bold.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    body {
+        background-color: black;
+        margin: 0;
+        padding: 0;
+        font-family: 'Nexa', sans-serif;
+    }
+
+    table {
+        width: 50%;
+        height: auto;
+        border-collapse: collapse;
+        position: fixed;
+        z-index: -1;
+        pointer-events: none;
+        top: calc(25% - 50px); /* Verschiebt die Tabelle 50 Pixel nach oben */
+    }
+
+    #table1 {
+        top: calc(28% - 80px); /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
+        left: 0;
+    }
+
+    #table2 {
+        top: calc(28% - 80px); /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
+        left: 6%;
+    }
+
+    #table3 {
+        top: calc(28% - 80px); /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
+        right: 0;
+    }
+
+    #table4 {
+        top: calc(28% - 80px); /* Verschiebt die zweite Tabelle 50 Pixel nach oben */
+        right: 6%;
+    }
+
+    td {
+        width: 25%;
+        padding-bottom: 25%;
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        box-sizing: border-box;
+    }
+
+    #textfeld, #textfeld2 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 24px;
+    }
+
+    #textfeld {
+        top: 20px;
+    }
+
+    #textfeld2 {
+        top: 60px;
+    }
+
+    #stift {
+        position: fixed;
+        bottom: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 550px;
+    }
+
+    #backButton, #voteButton {
+        position: absolute;
+        font-family: 'Nexa', sans-serif; /* Nexa als Schriftart verwenden */
+        font-size: 16px;
+        bottom:20px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: transparent;
+        color: #fff;
+        Border: 2px solid #ccc;
+        cursor: pointer;
+    }
+
+    #backButton {
+        left: 20px;
+    }
+
+    #backButton:hover, #voteButton:hover {
+        background-color: white;
+        color: black;
+    }
+
+    #voteButton {
+        right: 20px;
+    }
+
+    #voteButton.voted {
+        background-color: white !important;
+        color: black !important;
+    }
+</style>
+</head>
+<body>
+    <table id="table1">
+        <tr>
+            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('ritter.png');"></td>
+            <td style="background-image: url('oma.png');"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="background-image: url('oma.png');"></td>
+            <td style="background-image: url('arzt.png');"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="background-image: url('arzt.png');"></td>
+            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('ritter.png');"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <table id="table2">
+        <tr>
+            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('held.png');"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="background-image: url('ritter.png');"></td>
+            <td style="background-image: url('held.png');"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="background-image: url('oma.png');"></td>
+            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('arzt.png');"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <table id="table3">
+        <tr>
+            <td></td>
+            <td style="background-image: url('ritter.png');"></td>
+            <td style="background-image: url('oma.png');"></td>
+            <td style="background-image: url('held.png');"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="background-image: url('arzt.png');"></td>
+            <td style="background-image: url('oma.png');"></td>
+            <td style="background-image: url('arzt.png');"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('arzt.png');"></td>
+            <td style="background-image: url('ritter.png');"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <table id="table4">
+        <tr>
+            <td></td>
+            <td></td>
+            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('oma.png');"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('ritter.png');"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="background-image: url('oma.png');"></td>
+            <td style="background-image: url('arzt.png');"></td>
+            <td style="background-image: url('held.png');"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <div id="textfeld">
+        Baustelle THA
+    </div>
+    <div id="textfeld2">
+        Info der Stadt: NOCH BIS ZUM 27.04.2025
+    </div>
+    <img id="stift" src="Stift.png" alt="Stift">
+    <button id="backButton" onclick="goBack()">Zurück</button>
+    <button id="voteButton" onclick="vote(); changeColor(this),vote2()">STIMMEN: <span id="voteCount">2409</span></button>
+
+    <script>
+        var voteCount = 2409;
+
+        function vote() {
+            var voteSpan = document.getElementById("voteCount");
+
+            if (voteSpan.classList.contains("voted")) {
+                voteCount--;
+                voteSpan.innerText = voteCount;
+                voteSpan.classList.remove("voted");
+            } else {
+                voteCount++;
+                voteSpan.innerText = voteCount;
+                voteSpan.classList.add("voted");
+            }
+        }
+
+        function changeColor(button) {
+            if (button.style.color === "black") {
+                button.style.color = "#fff";
+                button.style.backgroundColor = "transparent";
+            } else {
+                button.style.color = "black";
+                button.style.backgroundColor = "#fff";
+            }
+        }
+
+        function vote2() {
+            var voteSpan = document.getElementById("voteCount");
+            var tableCell = document.querySelector("table tr:nth-child(2) td:nth-child(3)");
+
+            voteSpan.innerText = voteCount;
+
+            if (tableCell.style.backgroundImage && tableCell.style.backgroundImage !== "none") {
+                tableCell.style.backgroundImage = "none";
+            } else {
+                tableCell.style.backgroundImage = "url('ninja.png')";
+                tableCell.style.backgroundSize = "cover";
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
