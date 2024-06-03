@@ -28,42 +28,53 @@
         color: white;
     }
 
+    #logoContainer {
+        position: relative;
+        width: 50%;
+        max-width: 214px; /* Fallback width */
+        height: auto;
+        top:-12%;
+    }
+
     #TurningWheel {
         position: absolute;
-        max-width: 32%;
-        max-height: 32%;
-        top:31%;
+        width: 100%;
+        height: auto;
+        animation: spin 5s linear infinite;
+        top:34%
     }
+
     #BikeBumpLogo {
-        position:absolute;
-        top:22%;
-        max-width: 50%;
-        max-height: 50%;
+        position: relative;
+        width: 150%; /* Make the Bike Bump logo 50% larger */
+        height: auto;
+        top: 20%; /* Adjust based on your layout needs */
+        left: 50%;
+        transform: translateX(-50%); /* Center horizontally */
     }
 
     #CETextField {
         position: fixed;
-        bottom: 90px;
+        bottom: 15%;
         left: 50%;
         transform: translateX(-50%);
-        font-size: 36px;
+        font-size: 20px;
         color: white;
     }
     #textfeld2 {
         position: absolute;
-        bottom:10px;
-        right:10px;
-        font-size: 20pxpx;
-        color:#555;
+        bottom: 10px;
+        right: 10px;
+        font-size: 20px;
+        color: #555;
     }
-    hr {   
+    hr {
         position: absolute;
-        bottom: 165px;
-        width: 10%; /* Breite des horizontalen Strichs */
-        height: 4px; /* Höhe des horizontalen Strichs */
-        background-color: #555; /* Farbe des horizontalen Strichs */
-        border: none; /* Rand des horizontalen Strichs entfernen */
-        
+        bottom: 21%;
+        width: 10%;
+        height: 4px;
+        background-color: #555;
+        border: none;
     }
 
     @keyframes spin {
@@ -73,8 +84,10 @@
 </style>
 </head>
 <body>
-    <img id="TurningWheel" src="logoRad.png" alt="Bike Bump">
-    <img id="BikeBumpLogo" src="logoSchrift.png" alt="Bike Bump">
+    <div id="logoContainer">
+        <img id="TurningWheel" src="logoRad.png" alt="Bike Bump">
+        <img id="BikeBumpLogo" src="logoSchrift.png" alt="Bike Bump">
+    </div>
     <br>
     <hr>
     <br>
@@ -82,14 +95,9 @@
     <div id="textfeld2">Version 0.1</div>
 
     <script>
-        window.onload = function() {
-            var img = document.getElementById('TurningWheel');
-            img.style.animation = "spin 5s linear infinite";
-        };
-
         setTimeout(function() {
             window.location.href = "MARKER.html";
-        }, 10000); // Weiterleitung nach 8 Sekunden
+        }, 10000); // Weiterleitung nach 10 Sekunden
     </script>
 </body>
 </html>
