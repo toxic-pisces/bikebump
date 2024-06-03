@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interaktive Karte mit Marker hinzufügen</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+    @font-face {
+        font-family: 'Nexa';
+        src: url('Nexa Bold.otf') format('opentype'); /* Passe den Pfad entsprechend an */
+        font-weight: normal;
+        font-style: normal;
+    }
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+    #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+    }
+    #searchBar {
+        position: absolute;
+        top:12px;
+        left:180px;
+
+        transform: translateX(-50%);
+        z-index: 1;
+        width: 250px;
+        height: 20px;
+        border: 3px solid black;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+    #searchBar2 {
+        position: absolute;
+        top:44px;
+        left:180px;
+
+
+        transform: translateX(-50%);
+        z-index: 1;
+        width: 250px;
+        height: 20px;
+        border: 3px solid black;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+    #addButton {
+        position: absolute;
+        bottom: 80px;
+        right: 20px;
+        background-color: white;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        font-family: 'Nexa';
+        border: 3px solid black;
+        transition: background-color 0.3s, color 0.3s;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+    #addButton:hover {
+        background-color: black;
+        color: white;
+    }
+    #GoButton {
+        position: absolute;
+        bottom:20px;
+        right: 20px;
+        background-color: white;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        font-family: 'Nexa';
+        border: 3px solid black;
+        transition: background-color 0.3s, color 0.3s;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+    #GoButton:hover {
+        background-color: black;
+        color: white;
+    }
+    #highButton {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: white;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        font-family: 'Nexa';
+        border: 3px solid black;
+        transition: background-color 0.3s, color 0.3s;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+    #highButton:hover {
+        background-color: black;
+        color: white;
+    }
+    #descriptionInput {
+        position: absolute;
+        bottom: 140px;
+        right: 20px;
+        background-color: white;
+        border: 3px solid black;
+        border-radius: 5px;
+        padding: 5px;
+        width: 200px;
+        height: 100px;
+        resize: none;
+        display: none;
+    }
+    .circular-button {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background-color: white;
+        color: black;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 16px;
+        cursor: pointer;
+        font-family:'Nexa';
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        border: 3px solid black;
+        transition: background-color 0.3s, color 0.3s;
+        display: none;
+    }
+    .circular-button:hover {
+        background-color: black;
+        color: white;
+    }
+    #toggleButton {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background-color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        font-family:'Nexa';
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        border: 3px solid black;
+        transition: background-color 0.3s, color 0.3s;
+        background-image: url('gear.png');
+        background-size: 40px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #toggleButton:hover {
+        background-color: black;
+        background-image: url('gear-white.png');
+    }
+    #markerLink{
+        background-image: url('nutzer.png');
+        background-size: 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #markerLink:hover{
+        background-color: black;
+        background-image: url('nutzer-white.png');
+    }
+    #sButton{
+        background-image: url('ranglisten.png');
+        background-size: 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #sButton:hover{
+        background-color: black;
+        background-image: url('ranglisten-white.png');
+    }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<input type="text" id="searchBar" placeholder="START">
+<input type="text" id="searchBar2" placeholder="ZIEL">
+
+<button id="addButton">BUMP</button>
+<button id="GoButton" onclick="window.location.href = 'BUMPGO.html';">BUMP GO</button>
+<textarea id="descriptionInput" placeholder="Beschreibung eingeben..."></textarea>
+<button id="toggleButton" onclick="changeColor(this)"></button>
+<button id="markerLink" class="circular-button" onclick="window.location.href = 'MARKER.html';"></button>
+<button id="sButton" class="circular-button" onclick="window.location.href = 'LISTE.html';"></button>
+<button id="extraButton" class="circular-button">S2</button>
+
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map;
+    var addMode = false;
+    var markers = [];
+    var descriptionInput = document.getElementById('descriptionInput');
+
+    window.onload = function() {
+        var addButton = document.getElementById('addButton');
+        var toggleButton = document.getElementById('toggleButton');
+        var markerLink = document.getElementById('markerLink');
+        var sButton = document.getElementById('sButton');
+        var extraButton = document.getElementById('extraButton');
+
+        addButton.addEventListener('click', function() {
+            addMode = !addMode;
+            if (addMode) {
+                this.textContent = 'FERTIG';
+                descriptionInput.style.display = 'block';
+            } else {
+                this.textContent = 'BUMP';
+                descriptionInput.style.display = 'none';
+            }
+        });
+
+        toggleButton.addEventListener('click', function() {
+            var buttons = [markerLink, sButton, extraButton];
+            var visible = buttons[0].style.display === 'block';
+            var radius = 80;
+
+            if (visible) {
+                buttons.forEach(function(button) {
+                    button.style.display = 'none';
+                });
+            } else {
+                buttons[0].style.bottom = `${13 + radius}px`;
+                buttons[0].style.left = '18px';
+                buttons[1].style.bottom = `${14 + radius / Math.sqrt(2)}px`;
+                buttons[1].style.left = `${20 + radius / Math.sqrt(2)}px`;
+                buttons[2].style.bottom = '15px';
+                buttons[2].style.left = `${15 + radius}px`;
+                
+                buttons.forEach(function(button) {
+                    button.style.display = 'block';
+                });
+            }
+
+        
+        });
+
+        map = L.map('map').setView([0, 0], 2);
+
+        // Hier wird die JPG-Datei als Karte verwendet
+        var imageUrl = 'map.jpg',
+            imageBounds = [[-85, -180], [85, 180]];
+        L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+        map.on('click', function(event) {
+            if (addMode) {
+                var description = descriptionInput.value;
+                addMarker(event.latlng, description);
+            }
+        });
+    }
+
+    function addMarker(latlng, description) {
+        var marker = L.marker(latlng).addTo(map);
+        marker.bindPopup(description);
+        markers.push(marker);
+    }
+    function changeColor(button) {
+    // Überprüfe, ob der Button bereits den schwarzen Hintergrund hat
+    if (button.style.backgroundColor === "black") {
+        // Wenn ja, ändere die Farbe und das Hintergrundbild zurück
+        button.style.backgroundColor = "#fff";
+        button.style.backgroundImage = "url('gear.png')"; // Zurück zum ursprünglichen Bild
+    } else {
+        // Wenn nicht, setze den schwarzen Hintergrund und das neue Hintergrundbild
+        button.style.backgroundColor = "black";
+        button.style.backgroundImage = "url('gear-white.png')"; // Neues Bild
+    }
+}
+
+</script>
+</body>
+</html>
