@@ -169,6 +169,40 @@ function fillCircle() {
         }, 1000);
     }
 }
+// Define a threshold for shake sensitivity
+var shakeThreshold = 15;
+
+// Variables to hold acceleration data
+var lastX, lastY, lastZ;
+
+// Listen for device motion events
+window.addEventListener('devicemotion', function(event) {
+    // Get acceleration data
+    var acceleration = event.accelerationIncludingGravity;
+
+    // If this is the first run, just set the values
+    if (typeof lastX === 'undefined') {
+        lastX = acceleration.x;
+        lastY = acceleration.y;
+        lastZ = acceleration.z;
+        return;
+    }
+
+    // Calculate the change in acceleration
+    var deltaX = Math.abs(lastX - acceleration.x);
+    var deltaY = Math.abs(lastY - acceleration.y);
+    var deltaZ = Math.abs(lastZ - acceleration.z);
+
+    // If the change is above the threshold, a shake has occurred
+    if (deltaX + deltaY + deltaZ > shakeThreshold) {
+        erhebung();
+    }
+
+    // Store the current acceleration as the last acceleration
+    lastX = acceleration.x;
+    lastY = acceleration.y;
+    lastZ = acceleration.z;
+});
 
 function makeBackgroundVisible() {
     var backgroundImage = document.getElementById("backgroundImage");
