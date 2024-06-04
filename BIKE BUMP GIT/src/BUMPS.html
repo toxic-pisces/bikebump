@@ -7,7 +7,7 @@
 <style>
     @font-face {
         font-family: 'Nexa';
-        src: url('Nexa Bold.otf') format('opentype');
+        src: url('../Assets/Fonts/Nexa\ Bold.otf') format('opentype');
         font-weight: normal;
         font-style: normal;
     }
@@ -129,21 +129,21 @@
 <body>
     <table id="table1">
         <tr>
-            <td style="background-image: url('held.png');"></td>
-            <td style="background-image: url('ritter.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
+            <td style="background-image: url('../Assets/ritter.png');"></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
-            <td style="background-image: url('oma.png');"></td>
-            <td style="background-image: url('arzt.png');"></td>
+            <td style="background-image: url('../Assets/oma.png');"></td>
+            <td style="background-image: url('../Assets/arzt.png');"></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
-            <td style="background-image: url('arzt.png');"></td>
-            <td style="background-image: url('held.png');"></td>
-            <td style="background-image: url('ritter.png');"></td>
+            <td style="background-image: url('../Assets/arzt.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
+            <td style="background-image: url('../Assets/ritter.png');"></td>
             <td></td>
         </tr>
         <tr>
@@ -167,21 +167,21 @@
     </table>
     <table id="table2">
         <tr>
-            <td style="background-image: url('held.png');"></td>
-            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
-            <td style="background-image: url('ritter.png');"></td>
-            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('../Assets/ritter.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
-            <td style="background-image: url('oma.png');"></td>
-            <td style="background-image: url('held.png');"></td>
-            <td style="background-image: url('arzt.png');"></td>
+            <td style="background-image: url('../Assets/oma.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
+            <td style="background-image: url('../Assets/arzt.png');"></td>
             <td></td>
         </tr>
         <tr>
@@ -207,20 +207,20 @@
         <tr>
             <td></td>
             <td></td>
-            <td style="background-image: url('oma.png');"></td>
+            <td style="background-image: url('../Assets/oma.png');"></td>
             <td style="background-image: url('held.png');"></td>
         </tr>
         <tr>
             <td></td>
-            <td style="background-image: url('arzt.png');"></td>
-            <td style="background-image: url('oma.png');"></td>
-            <td style="background-image: url('arzt.png');"></td>
+            <td style="background-image: url('../Assets/arzt.png');"></td>
+            <td style="background-image: url('../Assets/oma.png');"></td>
+            <td style="background-image: url('../Assets/arzt.png');"></td>
         </tr>
         <tr>
             <td></td>
-            <td style="background-image: url('held.png');"></td>
-            <td style="background-image: url('arzt.png');"></td>
-            <td style="background-image: url('ritter.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
+            <td style="background-image: url('../Assets/arzt.png');"></td>
+            <td style="background-image: url('../Assets/ritter.png');"></td>
         </tr>
         <tr>
             <td></td>
@@ -245,20 +245,20 @@
         <tr>
             <td></td>
             <td></td>
-            <td style="background-image: url('held.png');"></td>
-            <td style="background-image: url('oma.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
+            <td style="background-image: url('../Assets/oma.png');"></td>
         </tr>
         <tr>
             <td></td>
             <td></td>
-            <td style="background-image: url('held.png');"></td>
-            <td style="background-image: url('ritter.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
+            <td style="background-image: url('../Assets/ritter.png');"></td>
         </tr>
         <tr>
             <td></td>
-            <td style="background-image: url('oma.png');"></td>
-            <td style="background-image: url('arzt.png');"></td>
-            <td style="background-image: url('held.png');"></td>
+            <td style="background-image: url('../Assets/oma.png');"></td>
+            <td style="background-image: url('../Assets/arzt.png');"></td>
+            <td style="background-image: url('../Assets/held.png');"></td>
         </tr>
         <tr>
             <td></td>
@@ -289,7 +289,7 @@
     <div id="textfeld3">
         NOCH BIS ZUM 27.04.2025
     </div>
-    <img id="stift" src="stift.png" alt="Stift">
+    <img id="stift" src="../Assets/stift.png" alt="Stift">
     <button id="backButton" onclick="goBack()">ZURÜCK</button>
     <button id="voteButton" onclick="vote(); changeColor(this),vote2()">STIMMEN: <span id="voteCount">2409</span></button>
 
@@ -329,7 +329,7 @@
             if (tableCell.style.backgroundImage && tableCell.style.backgroundImage !== "none") {
                 tableCell.style.backgroundImage = "none";
             } else {
-                tableCell.style.backgroundImage = "url('ninja.png')";
+                tableCell.style.backgroundImage = "url('../Assets/ninja.png')";
                 tableCell.style.backgroundSize = "cover";
             }
         }
