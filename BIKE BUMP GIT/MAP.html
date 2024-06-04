@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interaktive Karte mit Marker hinzufügen</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <style>
     @font-face {
@@ -17,6 +16,7 @@
         padding: 0;
         height: 100%;
     }
+
     #map {
         position: absolute;
         top: 0;
@@ -41,7 +41,6 @@
         position: absolute;
         top:44px;
         left:180px;
-
 
         transform: translateX(-50%);
         z-index: 1;
@@ -112,7 +111,7 @@
     }
     #descriptionInput {
         position: absolute;
-        bottom: 140px;
+        bottom: 200px;
         right: 20px;
         background-color: white;
         border: 3px solid black;
@@ -122,6 +121,21 @@
         height: 100px;
         resize: none;
         display: none;
+    }
+    #colorButtons {
+        position: absolute;
+        bottom: 140px;
+        right: 20px;
+        display: none;
+    }
+    .colorButton {
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 50%;
+        margin: 5px;
+        cursor: pointer;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     }
     .circular-button {
         position: absolute;
@@ -198,11 +212,15 @@
 <button id="addButton">BUMP</button>
 <button id="GoButton" onclick="window.location.href = 'BUMPGO.html';">BUMP GO</button>
 <textarea id="descriptionInput" placeholder="Beschreibung eingeben..."></textarea>
+<div id="colorButtons">
+    <button id="redButton" class="colorButton selected" style="background-color: green; background-image: url('helm.png'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></button>
+    <button id="blueButton" class="colorButton" style="background-color: red; background-image: url('schlagloch.png'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></button>
+    
+</div>
 <button id="toggleButton" onclick="changeColor(this)"></button>
 <button id="markerLink" class="circular-button" onclick="window.location.href = 'MARKER.html';"></button>
 <button id="sButton" class="circular-button" onclick="window.location.href = 'LISTE.html';"></button>
 <button id="extraButton" class="circular-button">S2</button>
-
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
@@ -210,6 +228,8 @@
     var addMode = false;
     var markers = [];
     var descriptionInput = document.getElementById('descriptionInput');
+    var colorButtons = document.getElementById('colorButtons');
+    var currentColor = 'red'; // Standardfarbe
 
     window.onload = function() {
         var addButton = document.getElementById('addButton');
@@ -218,14 +238,39 @@
         var sButton = document.getElementById('sButton');
         var extraButton = document.getElementById('extraButton');
 
+        document.getElementById('redButton').addEventListener('click', function() {
+            currentColor = 'green';
+            
+            
+        });
+
+        document.getElementById('blueButton').addEventListener('click', function() {
+            currentColor = 'red';
+        });
+        document.querySelectorAll('.colorButton').forEach(button => {
+    button.addEventListener('click', function() {
+        document.querySelectorAll('.colorButton').forEach(btn => {
+            btn.classList.remove('selected');
+            btn.style.width = '30px';
+            btn.style.height = '30px';
+        });
+        this.classList.add('selected');
+        this.style.width = '35px';
+        this.style.height = '35px';
+    });
+});
+
+
         addButton.addEventListener('click', function() {
             addMode = !addMode;
             if (addMode) {
                 this.textContent = 'FERTIG';
                 descriptionInput.style.display = 'block';
+                colorButtons.style.display = 'block';
             } else {
                 this.textContent = 'BUMP';
                 descriptionInput.style.display = 'none';
+                colorButtons.style.display = 'none';
             }
         });
 
@@ -250,8 +295,6 @@
                     button.style.display = 'block';
                 });
             }
-
-        
         });
 
         map = L.map('map').setView([0, 0], 2);
@@ -264,29 +307,31 @@
         map.on('click', function(event) {
             if (addMode) {
                 var description = descriptionInput.value;
-                addMarker(event.latlng, description);
+                addMarker(event.latlng, description, currentColor);
             }
         });
     }
 
-    function addMarker(latlng, description) {
-        var marker = L.marker(latlng).addTo(map);
-        marker.bindPopup(description);
-        markers.push(marker);
-    }
-    function changeColor(button) {
-    // Überprüfe, ob der Button bereits den schwarzen Hintergrund hat
-    if (button.style.backgroundColor === "black") {
-        // Wenn ja, ändere die Farbe und das Hintergrundbild zurück
-        button.style.backgroundColor = "#fff";
-        button.style.backgroundImage = "url('gear.png')"; // Zurück zum ursprünglichen Bild
-    } else {
-        // Wenn nicht, setze den schwarzen Hintergrund und das neue Hintergrundbild
-        button.style.backgroundColor = "black";
-        button.style.backgroundImage = "url('gear-white.png')"; // Neues Bild
-    }
+    function addMarker(latlng, description, color) {
+    var imageUrl = color === 'green' ? 'helm.png' : 'schlagloch.png';
+    var markerIcon = L.divIcon({
+        className: 'custom-marker',
+        html: `<div style="background-color: ${color}; width: 30px; height: 30px; border-radius: 50%; background-image: url('${imageUrl}'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></div>`
+    });
+    var marker = L.marker(latlng, {icon: markerIcon}).addTo(map);
+    marker.bindPopup(description);
+    markers.push(marker);
 }
 
+    function changeColor(button) {
+        if (button.style.backgroundColor === "black") {
+            button.style.backgroundColor = "#fff";
+            button.style.backgroundImage = "url('gear.png')";
+        } else {
+            button.style.backgroundColor = "black";
+            button.style.backgroundImage = "url('gear-white.png')";
+        }
+    }
 </script>
 </body>
 </html>
