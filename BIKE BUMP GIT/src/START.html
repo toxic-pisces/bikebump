@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bike Bump</title>
 <link rel="icon" href="../Assets/BIKE_BUMP.ico" type="image/x-icon">
+<link rel="manifest" href="/manifest.json">
 <style>
     @font-face {
         font-family: 'Nexa';
@@ -96,9 +97,19 @@
     <div id="textfeld2">Version 0.1</div>
 
     <script>
+        if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, function(err) {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
         setTimeout(function() {
             window.location.href = "MARKER.html";
         }, 10000); // Weiterleitung nach 10 Sekunden
+        
     </script>
 </body>
 </html>
