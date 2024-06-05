@@ -220,7 +220,7 @@
 <input type="text" id="searchBar2" placeholder="ZIEL">
 
 <button id="addButton">BUMP</button>
-<button id="GoButton" onclick="window.location.href = 'BUMPGO.html';">BUMP GO</button>
+<button id="GoButton" onclick="requestPermission();">BUMP GO</button>
 <textarea id="descriptionInput" placeholder="Beschreibung eingeben..."></textarea>
 <div id="colorButtons">
     <button id="redButton" class="colorButton selected" style="background-color: green; background-image: url('../Assets/helm.png'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></button>
@@ -331,6 +331,32 @@
     var marker = L.marker(latlng, {icon: markerIcon}).addTo(map);
     marker.bindPopup(description);
     markers.push(marker);
+}
+
+// Funktion, um die Berechtigung für Bewegungs- und Orientierungssensoren anzufordern
+function requestPermission() {
+    if (typeof DeviceMotionEvent.requestPermission === "function") {
+        DeviceMotionEvent.requestPermission()
+            .then((permissionState) => {
+                if (permissionState === "granted") {
+                    window.addEventListener("devicemotion", handleMotionEvent);
+                    redirectToBumpGo(); // Weiterleitung hier
+                } else {
+                    alert("Permission to access motion sensors was denied.");
+                    redirectToBumpGo(); // Weiterleitung hier
+                }
+            })
+            .catch(console.error);
+    } else {
+        // Handle regular non iOS 13+ devices
+        window.addEventListener("devicemotion", handleMotionEvent);
+        redirectToBumpGo(); // Weiterleitung hier
+    }
+}
+
+// Funktion, um zur BUMPGO.html Seite umzuleiten
+function redirectToBumpGo() {
+    window.location.href = 'BUMPGO.html';
 }
 
     function changeColor(button) {
