@@ -117,12 +117,24 @@
           );
         });
       }
-      setTimeout(function () {
-        // window.location.href = "MARKER.html";
-        // history.pushState({}, '', 'MARKER.html');
-        // window.location.reload();
-        window.location.assign("MARKER.html");
-      }, 3000); // Weiterleitung nach 3 Sekunden
+
+      setTimeout(function() {
+        window.location.href = 'MARKER.html';
+        history.pushState({}, '', 'MARKER.html');
+        window.location.reload();
+      }, 10000); // Weiterleitung nach 10 Sekunden
+
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function(event) {
+            event.preventDefault();
+            var target = link.getAttribute('href');
+            if (target) {
+              window.location.href = target;
+            }
+          });
+        });
+      });
     </script>
   </body>
 </html>
