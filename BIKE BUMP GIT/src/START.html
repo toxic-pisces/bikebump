@@ -1,149 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="Bike Bump" />
-    <link rel="apple-touch-icon" href="../Assets/BIKE_BUMP.png" />
-    <link rel="manifest" href="/manifest.json" />
-    <title>Bike Bump</title>
-    <link rel="icon" href="../Assets/BIKE_BUMP.ico" type="image/x-icon" />
-    <style>
-      @font-face {
-        font-family: "Nexa";
-        src: url("Nexa Bold.otf") format("opentype");
-        font-weight: normal;
-        font-style: normal;
-      }
-      :root {
-        --logo-width: 314px;
-        --logo-height: 313px;
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-family: "Nexa", sans-serif;
-        background-color: black;
-        color: white;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="Bike Bump" />
+  <link rel="apple-touch-icon" href="../Assets/BIKE_BUMP.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>Bike Bump</title>
+  <link rel="icon" href="../Assets/BIKE_BUMP.ico" type="image/x-icon" />
+  <style>
+    @font-face {
+      font-family: "Nexa";
+      src: url("Nexa Bold.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
+    }
+    :root {
+      --logo-width: 314px;
+      --logo-height: 313px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: "Nexa", sans-serif;
+      background-color: black;
+      color: white;
+    }
 
-      #logoContainer {
-        position: relative;
-        width: 50%;
-        max-width: 214px; /* Fallback width */
-        height: auto;
-        top: -12%;
-      }
+    #logoContainer {
+      position: relative;
+      width: 50%;
+      max-width: 214px;
+      height: auto;
+      top: -12%;
+    }
 
-      #TurningWheel {
-        position: absolute;
-        width: 100%;
-        height: auto;
-        animation: spin 5s linear infinite;
-        top: 34%;
-      }
+    #TurningWheel {
+      position: absolute;
+      width: 100%;
+      height: auto;
+      animation: spin 5s linear infinite;
+      top: 34%;
+    }
 
-      #BikeBumpLogo {
-        position: relative;
-        width: 150%; /* Make the Bike Bump logo 50% larger */
-        height: auto;
-        top: 20%; /* Adjust based on your layout needs */
-        left: 50%;
-        transform: translateX(-50%); /* Center horizontally */
-      }
+    #BikeBumpLogo {
+      position: relative;
+      width: 150%;
+      height: auto;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-      #CETextField {
-        position: absolute;
-        bottom: 15%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 20px;
-        color: white;
-      }
-      #textfeld2 {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        font-size: 20px;
-        color: #555;
-      }
-      hr {
-        position: absolute;
-        bottom: 21%;
-        width: 10%;
-        height: 4px;
-        background-color: #555;
-        border: none;
-      }
+    #CETextField {
+      position: absolute;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 20px;
+      color: white;
+    }
 
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
+    #textfeld2 {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: #555;
+    }
+
+    hr {
+      position: absolute;
+      bottom: 21%;
+      width: 10%;
+      height: 4px;
+      background-color: #555;
+      border: none;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
       }
-    </style>
-  </head>
-  <body>
-    <div id="logoContainer">
-      <img id="TurningWheel" src="../Assets/logoRad.png" alt="Bike Bump" />
-      <img id="BikeBumpLogo" src="../Assets/logoSchrift.png" alt="Bike Bump" />
-    </div>
-    <br />
-    <hr />
-    <br />
-    <div id="CETextField">created by CE</div>
-    <div id="textfeld2">Version 0.4</div>
-
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/service-worker.js').then(
-            function(registration) {
-              console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            },
-            function(err) {
-              console.log('ServiceWorker registration failed: ', err);
-            }
-          );
-        });
+      100% {
+        transform: rotate(360deg);
       }
+    }
+  </style>
+</head>
+<body>
+  <div id="logoContainer">
+    <img id="TurningWheel" src="../Assets/logoRad.png" alt="Bike Bump" />
+    <img id="BikeBumpLogo" src="../Assets/logoSchrift.png" alt="Bike Bump" />
+  </div>
+  <br />
+  <hr />
+  <br />
+  <div id="CETextField">created by CE</div>
+  <div id="textfeld2">Version 0.2</div>
 
-      setTimeout(function() {
-        window.location.href = 'MARKER.html';
-        history.pushState({}, '', 'MARKER.html');
-        window.location.reload();
-      }, 10000); // Weiterleitung nach 10 Sekunden
-
-      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('a').forEach(function(link) {
-          link.addEventListener('click', function(event) {
-            event.preventDefault();
-            var target = link.getAttribute('href');
-            if (target) {
-              window.location.href = target;
-            }
-          });
-        });
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js').then(
+          function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          },
+          function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          }
+        );
       });
+    }
 
-      window.addEventListener('beforeunload', function(event) {
-        if (window.navigator.standalone) {
+    setTimeout(function() {
+      navigateTo('MARKER.html');
+    }, 10000);
+
+    function navigateTo(url) {
+      if (window.navigator.standalone) {
+        history.pushState(null, null, url);
+        window.location.href = url;
+      } else {
+        window.location.href = url;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function(event) {
           event.preventDefault();
-          event.returnValue = '';
-          window.location.href = 'MARKER.html';
-        }
+          var target = link.getAttribute('href');
+          if (target) {
+            navigateTo(target);
+          }
+        });
       });
+    });
 
+    if (window.navigator.standalone) {
       document.addEventListener('click', function(event) {
         var target = event.target;
         while (target && target.tagName !== 'A') {
@@ -153,10 +155,11 @@
           event.preventDefault();
           var href = target.getAttribute('href');
           if (href) {
-            window.location.href = href;
+            navigateTo(href);
           }
         }
       });
-    </script>
-  </body>
+    }
+  </script>
+</body>
 </html>
