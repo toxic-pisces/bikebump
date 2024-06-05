@@ -103,7 +103,7 @@
     <br />
     <div id="CETextField">created by CE</div>
     <div id="textfeld2">Version 0.4</div>
-
+    <form id="redirectForm" action="MARKER.html" method="get" style="display:none;"></form>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
@@ -119,10 +119,8 @@
       }
 
       setTimeout(function() {
-        window.location.href = 'MARKER.html';
-        history.pushState({}, '', 'MARKER.html');
-        window.location.reload();
-      }, 10000); // Weiterleitung nach 10 Sekunden
+        document.getElementById('redirectForm').submit();
+      }, 3000); // Weiterleitung nach 10 Sekunden
 
       document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('a').forEach(function(link) {
