@@ -169,6 +169,7 @@
       ZURÜCK
     </button>
     <button id="circleButton" onclick="fillCircle()">BUMP</button>
+    <button id="requestPermissionButton" onclick="requestPermission()">Request Motion Permission</button>
     <div id="textfeld2">Tempo: 0 kmh</div>
     <script>
       var buttonClicked = false;
@@ -202,6 +203,10 @@
           }, 1000);
         }
       }
+
+      window.onload = function() {
+        requestPermission();
+    };
 
       // Funktion, um die Berechtigung für Bewegungs- und Orientierungssensoren anzufordern
       function requestPermission() {
@@ -308,9 +313,6 @@
           img.style.animation = "slide-up 5s forwards";
         });
       }
-      window.onload = function() {
-        requestPermission();
-    };
     </script>
   </body>
 </html>
