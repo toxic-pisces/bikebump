@@ -339,7 +339,6 @@ function requestPermission() {
         DeviceMotionEvent.requestPermission()
             .then((permissionState) => {
                 if (permissionState === "granted") {
-                    window.addEventListener("devicemotion", handleMotionEvent);
                     redirectToBumpGo(); // Weiterleitung hier
                 } else {
                     alert("Permission to access motion sensors was denied.");
@@ -349,7 +348,6 @@ function requestPermission() {
             .catch(console.error);
     } else {
         // Handle regular non iOS 13+ devices
-        window.addEventListener("devicemotion", handleMotionEvent);
         redirectToBumpGo(); // Weiterleitung hier
     }
 }
