@@ -98,7 +98,7 @@
     <hr>
     <br>
     <div id="CETextField">created by CE</div>
-    <div id="textfeld2">Version 0.1</div>
+    <div id="textfeld2">Version 0.2</div>
 
     <script>
         if ('serviceWorker' in navigator) {
@@ -111,8 +111,7 @@
     });
   }
         setTimeout(function() {
-            history.pushState({}, '', 'MARKER.html');
-            window.location.reload();
+            hwindow.location.href = 'MARKER.html';
         }, 3000); // Weiterleitung nach 3 Sekunden
         
     </script>
