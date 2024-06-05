@@ -169,7 +169,7 @@
       ZURÜCK
     </button>
     <button id="circleButton" onclick="fillCircle()">BUMP</button>
-    <button id="requestPermissionButton" onclick="requestPermission()">Request Motion Permission</button>
+
     <div id="textfeld2">Tempo: 0 kmh</div>
     <script>
       var buttonClicked = false;
@@ -203,35 +203,18 @@
           }, 1000);
         }
       }
+      // Define a threshold for shake sensitivity
+      var shakeThreshold = 30;
 
-      window.onload = function() {
-        requestPermission();
-    };
+      // Variables to hold acceleration data
+      var lastX, lastY, lastZ;
 
-      // Funktion, um die Berechtigung für Bewegungs- und Orientierungssensoren anzufordern
-      function requestPermission() {
-        if (typeof DeviceMotionEvent.requestPermission === "function") {
-          DeviceMotionEvent.requestPermission()
-            .then((permissionState) => {
-              if (permissionState === "granted") {
-                window.addEventListener("devicemotion", handleMotionEvent);
-              } else {
-                alert("Permission to access motion sensors was denied.");
-              }
-            })
-            .catch(console.error);
-        } else {
-          // Handle regular non iOS 13+ devices
-          window.addEventListener("devicemotion", handleMotionEvent);
-        }
-      }
-
-      function handleMotionEvent(event) {
-        var shakeThreshold = 30;
-        var lastX, lastY, lastZ;
-
+      // Listen for device motion events
+      window.addEventListener("devicemotion", function (event) {
+        // Get acceleration data
         var acceleration = event.accelerationIncludingGravity;
 
+        // If this is the first run, just set the values
         if (typeof lastX === "undefined") {
           lastX = acceleration.x;
           lastY = acceleration.y;
@@ -239,49 +222,59 @@
           return;
         }
 
+        // Calculate the change in acceleration
         var deltaX = Math.abs(lastX - acceleration.x);
         var deltaY = Math.abs(lastY - acceleration.y);
         var deltaZ = Math.abs(lastZ - acceleration.z);
 
+        // If the change is above the threshold, a shake has occurred
         if (deltaX + deltaY + deltaZ > shakeThreshold) {
           erhebung();
         }
 
+        // Store the current acceleration as the last acceleration
         lastX = acceleration.x;
         lastY = acceleration.y;
         lastZ = acceleration.z;
-      }
+      });
 
       function makeBackgroundVisible() {
         var backgroundImage = document.getElementById("backgroundImage");
         console.log("Making background visible");
-        backgroundImage.style.opacity = "1";
+        backgroundImage.style.opacity = "1"; // Mache das Hintergrundbild langsam sichtbar
 
         setTimeout(function () {
           console.log("Making background invisible");
-          backgroundImage.style.opacity = "0";
-        }, 4000);
+          backgroundImage.style.opacity = "0"; // Mache das Hintergrundbild wieder unsichtbar
+
+          // Öffne die neue Seite nach Ablauf der Zeit
+        }, 4000); // Nach 7 Sekunden (2 Sekunden sichtbar werden + 5 Sekunden sichtbar bleiben)
       }
 
       function erhebung() {
-        document.body.style.animation = "none";
-        void document.body.offsetWidth;
+        // Wackeleffekt
+        document.body.style.animation = "none"; // Animation entfernen
+        void document.body.offsetWidth; // Trigger Reflow, um die Animation zurückzusetzen
         document.body.style.animation = "shake 0.5s";
 
+        // Nach 2 Sekunden "Geister Markierung platziert" anzeigen
         setTimeout(function () {
           document.getElementById("textfeld").innerText =
             "Geister Markierung platziert";
+          // Nach weiteren 4 Sekunden Textfeld leeren
           setTimeout(function () {
             document.getElementById("textfeld").innerText = "";
           }, 4000);
         }, 2000);
 
+        // Bilder erstellen und anzeigen
         var images = [];
         var screenWidth = window.innerWidth;
         var screenHeight = window.innerHeight;
-        var imageWidth = 100;
-        var imageHeight = 100;
+        var imageWidth = 100; // Breite der Bilder
+        var imageHeight = 100; // Höhe der Bilder
 
+        // Funktion, um eine zufällige Position mit Mindestabstand zu erhalten
         function getRandomPosition(index) {
           var minX = index * screenWidth;
           var maxX = (index + 1) * screenWidth - imageWidth;
@@ -290,25 +283,29 @@
           return { top: y + "px", left: x + "px" };
         }
 
+        // Bilder platzieren
         for (var i = 0; i < 1; i++) {
           var img = document.createElement("img");
           img.src = "../Assets/geistPACGREEN.png";
-          img.style.width = imageWidth + "px";
-          img.style.height = imageHeight + "px";
+          img.style.width = imageWidth + "px"; // Breite des Bildes
+          img.style.height = imageHeight + "px"; // Höhe des Bildes
           img.style.position = "fixed";
-          img.style.zIndex = "-1";
-          img.style.opacity = "0.5";
+          img.style.zIndex = "-1"; // Stellen Sie sicher, dass die Bilder über anderen Elementen liegen
+
+          img.style.opacity = "0.5"; // Setze die Transparenz auf 50%
           Object.assign(img.style, getRandomPosition(i));
           document.body.appendChild(img);
           images.push(img);
         }
 
+        // Bilder nach einer bestimmten Zeit entfernen
         setTimeout(function () {
           for (var i = 0; i < images.length; i++) {
             document.body.removeChild(images[i]);
           }
-        }, 5000);
+        }, 5000); // 5 Sekunden Verzögerung
 
+        // Bilder langsam von unten nach oben schieben
         images.forEach(function (img) {
           img.style.animation = "slide-up 5s forwards";
         });
