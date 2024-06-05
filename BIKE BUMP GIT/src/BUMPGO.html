@@ -170,9 +170,6 @@
     </button>
     <button id="circleButton" onclick="fillCircle()">BUMP</button>
     <div id="textfeld2">Tempo: 0 kmh</div>
-    <button id="requestPermissionButton" onclick="requestPermission()">
-      Request Motion Permission
-    </button>
     <script>
       var buttonClicked = false;
 
@@ -311,6 +308,9 @@
           img.style.animation = "slide-up 5s forwards";
         });
       }
+      window.onload = function() {
+        requestPermission();
+    };
     </script>
   </body>
 </html>
