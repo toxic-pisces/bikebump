@@ -8,6 +8,7 @@
     <meta name="apple-mobile-web-app-title" content="Bike Bump" />
     <link rel="apple-touch-icon" href="../Assets/BIKE_BUMP.png" />
     <link rel="manifest" href="/manifest.json" />
+    <a id="marker-link" href="MARKER.html">Go to Marker</a>
     <title>Bike Bump</title>
     <link rel="icon" href="../Assets/BIKE_BUMP.ico" type="image/x-icon" />
     <style>
@@ -121,11 +122,10 @@
         });
       }
       setTimeout(function () {
-        // window.location.href = "MARKER.html";
-        // history.pushState({}, '', 'MARKER.html');
-        // window.location.reload();
-        window.location.assign("MARKER.html");
-      }, 3000); // Weiterleitung nach 3 Sekunden
+        window.location.href = "MARKER.html";
+        history.pushState({}, '', 'MARKER.html');
+        window.location.reload();
+      }, 10000); // Weiterleitung nach 3 Sekunden
     </script>
   </body>
 </html>
