@@ -8,7 +8,6 @@
     <meta name="apple-mobile-web-app-title" content="Bike Bump" />
     <link rel="apple-touch-icon" href="../Assets/BIKE_BUMP.png" />
     <link rel="manifest" href="/manifest.json" />
-    <a id="marker-link" href="MARKER.html">Go to Marker</a>
     <title>Bike Bump</title>
     <link rel="icon" href="../Assets/BIKE_BUMP.ico" type="image/x-icon" />
     <style>
@@ -106,26 +105,36 @@
     <div id="textfeld2">Version 0.2</div>
 
     <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker.register("/service-worker.js").then(
-            function (registration) {
-              console.log(
-                "ServiceWorker registration successful with scope: ",
-                registration.scope
-              );
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js').then(
+            function(registration) {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
             },
-            function (err) {
-              console.log("ServiceWorker registration failed: ", err);
+            function(err) {
+              console.log('ServiceWorker registration failed: ', err);
             }
           );
         });
       }
-      setTimeout(function () {
-        window.location.href = "MARKER.html";
+
+      setTimeout(function() {
+        window.location.href = 'MARKER.html';
         history.pushState({}, '', 'MARKER.html');
         window.location.reload();
-      }, 10000); // Weiterleitung nach 3 Sekunden
+      }, 10000); // Weiterleitung nach 10 Sekunden
+
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function(event) {
+            event.preventDefault();
+            var target = link.getAttribute('href');
+            if (target) {
+              window.location.href = target;
+            }
+          });
+        });
+      });
     </script>
   </body>
 </html>
