@@ -100,18 +100,9 @@
     <div id="textfeld2">Version 0.1</div>
 
     <script>
-        if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      }, function(err) {
-        console.log('ServiceWorker registration failed: ', err);
-      });
-    });
-  }
         setTimeout(function() {
-            window.location.href = "MARKER.html";
-        }, 10000); // Weiterleitung nach 10 Sekunden
+            history.pushState({}, '', 'MARKER.html');
+        }, 3000); // Weiterleitung nach 3 Sekunden
         
     </script>
 </body>
