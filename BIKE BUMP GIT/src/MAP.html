@@ -202,6 +202,16 @@
         background-color: black;
         background-image: url('../Assets/ranglisten-white.png');
     }
+        #extraButton{
+        background-image: url('../Assets/checklist.png');
+        background-size: 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #extraButton:hover{
+        background-color: black;
+        background-image: url('../Assets/checklist-white.png');
+    }
 </style>
 </head>
 <body>
@@ -220,7 +230,7 @@
 <button id="toggleButton" onclick="changeColor(this)"></button>
 <button id="markerLink" class="circular-button" onclick="window.location.href = 'MARKER.html';"></button>
 <button id="sButton" class="circular-button" onclick="window.location.href = 'LISTE.html';"></button>
-<button id="extraButton" class="circular-button">S2</button>
+<button id="extraButton" class="circular-button" onclick="window.location.href = 'AKTIVLISTE.html';"></button>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
@@ -300,7 +310,7 @@
         map = L.map('map').setView([0, 0], 2);
 
         // Hier wird die JPG-Datei als Karte verwendet
-        var imageUrl = '../Assets/map.jpg',
+        var imageUrl = '../Assets/mapHSA.jpg',
             imageBounds = [[-85, -180], [85, 180]];
         L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
