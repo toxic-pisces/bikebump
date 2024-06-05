@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    @font-face {
+        font-family: 'Nexa';
+        src: url('Nexa Bold.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Nexa', sans-serif; /* Nexa als primäre Schriftart verwenden */
+        background-color: black;
+    }
+
+    .container {
+        width: 80%;
+        max-width: 600px;
+        border: 2px solid white;
+        border-radius: 15px;
+        margin: 10px 0;
+        display: flex;
+        padding: 10px;
+        background-color: transparent;
+    }
+
+    .containerRED {
+        border: 2px solid red;
+    }
+
+    .containerGREEN {
+        border: 2px solid green;
+    }
+
+    .left-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+    }
+
+    .left-container img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+    }
+
+    .text-left, .text-right {
+        color: white;
+    }
+
+    .text-left {
+        text-align: center;
+    }
+
+    .right-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+        text-align: center;
+    }
+
+    .text-right {
+        width: 100%; /* Ensure the text spans the full width of the right container */
+    }
+
+    #BACKBUTTON {
+        position: absolute;
+        font-family: 'Nexa', sans-serif; /* Nexa als Schriftart verwenden */
+        font-size: 16px;
+        bottom: 20px;
+        left: 20px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: transparent;
+        color: #fff;
+        border: 2px solid #ccc;
+        cursor: pointer;
+    }
+
+    #BACKBUTTON:hover {
+        background-color: white;
+        color: black;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="left-container">
+        <img src="stift.png" alt="Stift">
+        <div class="text-left">
+            <p>Universitätsstraße</p>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="text-right">
+            <p>Info der Stadt: Baustelle bis Ende Mai</p>
+        </div>
+    </div>
+</div>
+
+<div class="container containerGREEN">
+    <div class="left-container">
+        <img src="stift.png" alt="Stift">
+        <div class="text-left">
+            <p>Haunstetterstraße</p>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="text-right">
+            <p>BUMP behoben</p>
+        </div>
+    </div>
+</div>
+
+<div class="container containerRED">
+    <div class="left-container">
+        <img src="stift.png" alt="Stift">
+        <div class="text-left">
+            <p>Königsstaße</p>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="text-right">
+            <p>BUMP kann nicht behoben werden</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="left-container">
+        <img src="stift.png" alt="Stift">
+        <div class="text-left">
+            <p>Ludwigsstaße</p>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="text-right">
+            <p>Info der Stadt:<br>Wir kümmern uns drum!</p>
+        </div>
+    </div>
+</div>
+
+<button id="BACKBUTTON" onclick="window.location.href = 'MAP.html';">ZURÜCK</button>
+
+</body>
+</html>

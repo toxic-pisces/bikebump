@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<!-- Importieren der Schriftart Nexa -->
+<style>
+    @font-face {
+        font-family: 'Nexa';
+        src: url('Nexa Bold.otf') format('opentype'); /* Passe den Pfad entsprechend an */
+        font-weight: normal;
+        font-style: normal;
+    }
+    #backButton {
+        position: absolute;
+        font-family: 'Nexa', sans-serif; /* Nexa als Schriftart verwenden */
+        font-size: 16px;
+        bottom:20px;
+        left:20px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: transparent;
+        color: #fff;
+        Border: 2px solid #ccc;
+        cursor: pointer;
+
+    }
+    #backButton:hover {
+        background-color: white;
+        color: black;
+    }
+
+
+    body {
+
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Nexa', sans-serif; /* Nexa als primäre Schriftart verwenden */
+        background-color: black;
+  
+    }
+        /* Stil für die Benachrichtigung */
+        .notification {
+        position: fixed;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: white;
+        color: #333;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 999;
+        transition: top 0.5s ease; /* Animation für das Herunterfahren */
+    }
+    #nachrichtButton {
+
+        margin-bottom:10px;
+        width: 300px;
+
+        font-size: 16px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: transparent;
+        color: rgb(72, 75, 78);
+        border: 2px solid rgb(72, 75, 78);
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+    <button id="backButton" onclick="window.location.href = 'MAP.html';">ZURÜCK</button>
+    <button id="nachrichtButton" onclick="showNotification('Dein Bump hat gerade die 1000 Votes geknackt!!!')">Voting Hürde</button>
+    <button id="nachrichtButton" onclick="showNotification('Die Stadt hat eine Info an einem deiner Bumps hinterlassen')">Stadt Info</button>
+    <button id="nachrichtButton" onclick="showNotification('Einer deiner Bumps wurde soeben behoben')">Bump behoben</button>
+    <button id="nachrichtButton" onclick="showNotification('Einer deiner Bumps kann leider nicht behoben werden :(')">Bump kann nicht behoben werden</button>
+
+</body>
+
+<script>
+    // Funktion zum Erstellen und Anzeigen einer Benachrichtigung
+    function showNotification(message) {
+        // Erstellen des Benachrichtigungselements
+        var notification = document.createElement('div');
+        notification.classList.add('notification');
+        notification.textContent = message;
+
+        // Hinzufügen der Benachrichtigung zum Dokument
+        document.body.appendChild(notification);
+
+        // Nach ein paar Sekunden die Benachrichtigung ausblenden
+        setTimeout(function() {
+            notification.style.top = '20px';
+            setTimeout(function() {
+            notification.style.top = '-100px';// Wartezeit für die Animation (0.5 Sekunden)
+       
+        }, 4000); // Zurück zur Startposition oberhalb des sichtbaren Bereichs
+
+
+    }, 1500); // Wartezeit vor dem Ausblenden der Benachrichtigung (3 Sekunden)
+    }
+</script>
+</html>    
