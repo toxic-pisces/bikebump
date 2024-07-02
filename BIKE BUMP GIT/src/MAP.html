@@ -1,371 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<style>
-    @font-face {
-        font-family: 'Nexa';
-        src: url('../Assets/Fonts/Nexa\ Bold.otf') format('opentype'); /* Passe den Pfad entsprechend an */
-        font-weight: normal;
-        font-style: normal;
-    }
-    body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-    }
-
-    #map {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 0;
-    }
-    #searchBar {
-        position: absolute;
-        top:12px;
-        left:180px;
-
-        transform: translateX(-50%);
-        z-index: 1;
-        width: 250px;
-        height: 20px;
-        border: 3px solid black;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-    #searchBar2 {
-        position: absolute;
-        top:44px;
-        left:180px;
-
-        transform: translateX(-50%);
-        z-index: 1;
-        width: 250px;
-        height: 20px;
-        border: 3px solid black;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-    #addButton {
-        position: absolute;
-        bottom: 80px;
-        right: 20px;
-        background-color: white;
-        color: black;
-        border: none;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        font-family: 'Nexa';
-        border: 3px solid black;
-        transition: background-color 0.3s, color 0.3s;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-    #addButton:hover {
-        background-color: black;
-        color: white;
-    }
-    #GoButton {
-        position: absolute;
-        bottom:20px;
-        right: 20px;
-        background-color: white;
-        color: black;
-        border: none;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        font-family: 'Nexa';
-        border: 3px solid black;
-        transition: background-color 0.3s, color 0.3s;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-    #GoButton:hover {
-        background-color: black;
-        color: white;
-    }
-    #highButton {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background-color: white;
-        color: black;
-        border: none;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        font-family: 'Nexa';
-        border: 3px solid black;
-        transition: background-color 0.3s, color 0.3s;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-    #highButton:hover {
-        background-color: black;
-        color: white;
-    }
-    #descriptionInput {
-        position: absolute;
-        bottom: 200px;
-        right: 20px;
-        background-color: white;
-        border: 3px solid black;
-        border-radius: 5px;
-        padding: 5px;
-        width: 200px;
-        height: 100px;
-        resize: none;
-        display: none;
-    }
-    #colorButtons {
-        position: absolute;
-        bottom: 140px;
-        right: 20px;
-        display: none;
-    }
-    .colorButton {
-        width: 30px;
-        height: 30px;
-        border: none;
-        border-radius: 50%;
-        margin: 5px;
-        cursor: pointer;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-    .circular-button {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        background-color: white;
-        color: black;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        font-size: 16px;
-        cursor: pointer;
-        font-family:'Nexa';
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        border: 3px solid black;
-        transition: background-color 0.3s, color 0.3s;
-        display: none;
-    }
-    .circular-button:hover {
-        background-color: black;
-        color: white;
-    }
-    #toggleButton {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        background-color: white;
-        border: none;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        cursor: pointer;
-        font-family:'Nexa';
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        border: 3px solid black;
-        transition: background-color 0.3s, color 0.3s;
-        background-image: url('../Assets/gear.png');
-        background-size: 40px;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-    #toggleButton:hover {
-        background-color: black;
-        background-image: url('../Assets/gear-white.png');
-    }
-    #markerLink{
-        background-image: url('../Assets/nutzer.png');
-        background-size: 30px;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-    #markerLink:hover{
-        background-color: black;
-        background-image: url('../Assets/nutzer-white.png');
-    }
-    #sButton{
-        background-image: url('../Assets/ranglisten.png');
-        background-size: 30px;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-    #sButton:hover{
-        background-color: black;
-        background-image: url('../Assets/ranglisten-white.png');
-    }
-        #extraButton{
-        background-image: url('../Assets/checklist.png');
-        background-size: 30px;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-    #extraButton:hover{
-        background-color: black;
-        background-image: url('../Assets/checklist-white.png');
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Improved Bump Map Web App</title> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        @font-face {
+            font-family: 'Nexa';
+            src: url('../Assets/Fonts/Nexa Bold.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Nexa', Arial, sans-serif;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+        .input-field {
+            position: absolute;
+            left: 180px;
+            transform: translateX(-50%);
+            z-index: 1;
+            width: 250px;
+            height: 20px;
+            border: 3px solid black;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+        #searchBar { top: 12px; }
+        #searchBar2 { top: 44px; }
+        .button {
+            position: absolute;
+            background-color: white;
+            color: black;
+            border: 3px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: 'Nexa';
+            transition: background-color 0.3s, color 0.3s;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+        .button:hover {
+            background-color: black;
+            color: white;
+        }
+        #addButton { bottom: 80px; right: 20px; }
+        #GoButton { bottom: 20px; right: 20px; }
+        #highButton { top: 20px; right: 20px; }
+        #descriptionInput {
+            position: absolute;
+            bottom: 200px;
+            right: 20px;
+            background-color: white;
+            border: 3px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            width: 200px;
+            height: 100px;
+            resize: none;
+            display: none;
+        }
+        #colorButtons {
+            position: absolute;
+            bottom: 140px;
+            right: 20px;
+            display: none;
+        }
+        .colorButton {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            background-size: 20px 20px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .colorButton.selected {
+            width: 35px;
+            height: 35px;
+        }
+        #redButton { background-color: green; background-image: url('../Assets/helm.png'); }
+        #blueButton { background-color: red; background-image: url('../Assets/schlagloch.png'); }
+        .circular-button {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: white;
+            border: 3px solid black;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, color 0.3s;
+            display: none;
+            background-size: 30px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .circular-button:hover {
+            background-color: black;
+        }
+        #toggleButton {
+            display: block;
+            width: 60px;
+            height: 60px;
+            background-image: url('../Assets/gear.png');
+            background-size: 40px;
+        }
+        #markerLink { background-image: url('../Assets/nutzer.png'); }
+        #sButton { background-image: url('../Assets/ranglisten.png'); }
+        #extraButton { background-image: url('../Assets/checklist.png'); }
+        #markerLink:hover { background-image: url('../Assets/nutzer-white.png'); }
+        #sButton:hover { background-image: url('../Assets/ranglisten-white.png'); }
+        #extraButton:hover { background-image: url('../Assets/checklist-white.png'); }
+    </style>
 </head>
 <body>
-<div id="map"></div>
-<input type="text" id="searchBar" placeholder="START">
-<input type="text" id="searchBar2" placeholder="ZIEL">
+    <div id="map"></div>
+    <input type="text" id="searchBar" class="input-field" placeholder="START">
+    <input type="text" id="searchBar2" class="input-field" placeholder="ZIEL">
+    <button id="addButton" class="button">BUMP</button>
+    <button id="GoButton" class="button" onclick="requestPermission();">BUMP GO</button>
+    <textarea id="descriptionInput" placeholder="Beschreibung eingeben..."></textarea>
+    <div id="colorButtons">
+        <button id="redButton" class="colorButton selected"></button>
+        <button id="blueButton" class="colorButton"></button>
+    </div>
+    <button id="toggleButton" class="circular-button" onclick="toggleMenu()"></button>
+    <button id="markerLink" class="circular-button" onclick="window.location.href = 'MARKER.html';"></button>
+    <button id="sButton" class="circular-button" onclick="window.location.href = 'LISTE.html';"></button>
+    <button id="extraButton" class="circular-button" onclick="window.location.href = 'AKTIVLISTE.html';"></button>
 
-<button id="addButton">BUMP</button>
-<button id="GoButton" onclick="requestPermission();">BUMP GO</button>
-<textarea id="descriptionInput" placeholder="Beschreibung eingeben..."></textarea>
-<div id="colorButtons">
-    <button id="redButton" class="colorButton selected" style="background-color: green; background-image: url('../Assets/helm.png'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></button>
-    <button id="blueButton" class="colorButton" style="background-color: red; background-image: url('../Assets/schlagloch.png'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></button>
-    
-</div>
-<button id="toggleButton" onclick="changeColor(this)"></button>
-<button id="markerLink" class="circular-button" onclick="window.location.href = 'MARKER.html';"></button>
-<button id="sButton" class="circular-button" onclick="window.location.href = 'LISTE.html';"></button>
-<button id="extraButton" class="circular-button" onclick="window.location.href = 'AKTIVLISTE.html';"></button>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        let map, addMode = false, markers = [], currentColor = 'green', tempMarker;
+        const descriptionInput = document.getElementById('descriptionInput');
+        const colorButtons = document.getElementById('colorButtons');
+        const addButton = document.getElementById('addButton');
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-    var map;
-    var addMode = false;
-    var markers = [];
-    var descriptionInput = document.getElementById('descriptionInput');
-    var colorButtons = document.getElementById('colorButtons');
-    var currentColor = 'red'; // Standardfarbe
-
-    window.onload = function() {
-        var addButton = document.getElementById('addButton');
-        var toggleButton = document.getElementById('toggleButton');
-        var markerLink = document.getElementById('markerLink');
-        var sButton = document.getElementById('sButton');
-        var extraButton = document.getElementById('extraButton');
-
-        document.getElementById('redButton').addEventListener('click', function() {
-            currentColor = 'green';
-            
-            
-        });
-
-        document.getElementById('blueButton').addEventListener('click', function() {
-            currentColor = 'red';
-        });
-        document.querySelectorAll('.colorButton').forEach(button => {
-    button.addEventListener('click', function() {
-        document.querySelectorAll('.colorButton').forEach(btn => {
-            btn.classList.remove('selected');
-            btn.style.width = '30px';
-            btn.style.height = '30px';
-        });
-        this.classList.add('selected');
-        this.style.width = '35px';
-        this.style.height = '35px';
-    });
-});
-
-
-        addButton.addEventListener('click', function() {
-            addMode = !addMode;
-            if (addMode) {
-                this.textContent = 'FERTIG';
-                descriptionInput.style.display = 'block';
-                colorButtons.style.display = 'block';
-            } else {
-                this.textContent = 'BUMP';
-                descriptionInput.style.display = 'none';
-                colorButtons.style.display = 'none';
-            }
-        });
-
-        toggleButton.addEventListener('click', function() {
-            var buttons = [markerLink, sButton, extraButton];
-            var visible = buttons[0].style.display === 'block';
-            var radius = 80;
-
-            if (visible) {
-                buttons.forEach(function(button) {
-                    button.style.display = 'none';
-                });
-            } else {
-                buttons[0].style.bottom = `${13 + radius}px`;
-                buttons[0].style.left = '18px';
-                buttons[1].style.bottom = `${14 + radius / Math.sqrt(2)}px`;
-                buttons[1].style.left = `${20 + radius / Math.sqrt(2)}px`;
-                buttons[2].style.bottom = '15px';
-                buttons[2].style.left = `${15 + radius}px`;
-                
-                buttons.forEach(function(button) {
-                    button.style.display = 'block';
-                });
-            }
-        });
-
-        map = L.map('map').setView([0, 0], 2);
-
-        // Hier wird die JPG-Datei als Karte verwendet
-        var imageUrl = '../Assets/mapHSA.jpg',
-            imageBounds = [[-85, -180], [85, 180]];
-        L.imageOverlay(imageUrl, imageBounds).addTo(map);
-
-        map.on('click', function(event) {
-            if (addMode) {
-                var description = descriptionInput.value;
-                addMarker(event.latlng, description, currentColor);
-            }
-        });
-    }
-
-    function addMarker(latlng, description, color) {
-    var imageUrl = color === 'green' ? '../Assets/helm.png' : '../Assets/schlagloch.png';
-    var markerIcon = L.divIcon({
-        className: 'custom-marker',
-        html: `<div style="background-color: ${color}; width: 30px; height: 30px; border-radius: 50%; background-image: url('${imageUrl}'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></div>`
-    });
-    var marker = L.marker(latlng, {icon: markerIcon}).addTo(map);
-    marker.bindPopup(description);
-    markers.push(marker);
-}
-
-// Funktion, um die Berechtigung für Bewegungs- und Orientierungssensoren anzufordern
-function requestPermission() {
-    if (typeof DeviceMotionEvent.requestPermission === "function") {
-        DeviceMotionEvent.requestPermission()
-            .then((permissionState) => {
-                if (permissionState === "granted") {
-                    redirectToBumpGo(); // Weiterleitung hier
-                } else {
-                    alert("Permission to access motion sensors was denied.");
-                    redirectToBumpGo(); // Weiterleitung hier
-                }
-            })
-            .catch(console.error);
-    } else {
-        // Handle regular non iOS 13+ devices
-        redirectToBumpGo(); // Weiterleitung hier
-    }
-}
-
-// Funktion, um zur BUMPGO.html Seite umzuleiten
-function redirectToBumpGo() {
-    window.location.href = 'BUMPGO.html';
-}
-
-    function changeColor(button) {
-        if (button.style.backgroundColor === "black") {
-            button.style.backgroundColor = "#fff";
-            button.style.backgroundImage = "url('../Assets/gear.png')";
-        } else {
-            button.style.backgroundColor = "black";
-            button.style.backgroundImage = "url('../Assets/gear-white.png')";
+        window.onload = function() {
+            initializeMap();
+            setupEventListeners();
         }
-    }
-</script>
+
+        function initializeMap() {
+            map = L.map('map').setView([0, 0], 2);
+            var imageUrl = '../Assets/mapHSA.jpg',
+                imageBounds = [[-85, -180], [85, 180]];
+            L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+            map.on('click', handleMapClick);
+        }
+
+        function setupEventListeners() {
+            addButton.addEventListener('click', toggleAddMode);
+            document.querySelectorAll('.colorButton').forEach(button => {
+                button.addEventListener('click', selectColor);
+            });
+        }
+
+        function toggleAddMode() {
+            addMode = !addMode;
+            addButton.textContent = addMode ? 'FERTIG' : 'BUMP';
+            descriptionInput.style.display = addMode ? 'block' : 'none';
+            colorButtons.style.display = addMode ? 'block' : 'none';
+            if (!addMode && tempMarker) {
+                confirmBump();
+            }
+        }
+
+        function selectColor() {
+            document.querySelectorAll('.colorButton').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.style.width = '30px';
+                btn.style.height = '30px';
+            });
+            this.classList.add('selected');
+            this.style.width = '35px';
+            this.style.height = '35px';
+            currentColor = this.id === 'redButton' ? 'green' : 'red';
+        }
+
+        function handleMapClick(event) {
+            if (addMode) {
+                if (tempMarker) {
+                    map.removeLayer(tempMarker);
+                }
+                tempMarker = addMarker(event.latlng, '', currentColor);
+                descriptionInput.value = '';
+                descriptionInput.focus();
+            }
+        }
+
+        function addMarker(latlng, description, color) {
+            var imageUrl = color === 'green' ? '../Assets/helm.png' : '../Assets/schlagloch.png';
+            var markerIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="background-color: ${color}; width: 30px; height: 30px; border-radius: 50%; background-image: url('${imageUrl}'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></div>`
+            });
+            var marker = L.marker(latlng, {icon: markerIcon}).addTo(map);
+            if (description) {
+                marker.bindPopup(description);
+            }
+            return marker;
+        }
+
+        function confirmBump() {
+            if (tempMarker) {
+                tempMarker.bindPopup(descriptionInput.value);
+                markers.push(tempMarker);
+                tempMarker = null;
+            }
+        }
+
+        function toggleMenu() {
+            const buttons = [document.getElementById('markerLink'), document.getElementById('sButton'), document.getElementById('extraButton')];
+            const visible = buttons[0].style.display === 'block';
+            const radius = 80;
+
+            buttons.forEach((button, index) => {
+                if (visible) {
+                    button.style.display = 'none';
+                } else {
+                    const angle = (Math.PI / 2) * (index / (buttons.length - 1));
+                    button.style.bottom = `${13 + radius * Math.sin(angle)}px`;
+                    button.style.left = `${18 + radius * Math.cos(angle)}px`;
+                    button.style.display = 'block';
+                }
+            });
+
+            const toggleButton = document.getElementById('toggleButton');
+            if (visible) {
+                toggleButton.style.backgroundColor = 'white';
+                toggleButton.style.backgroundImage = "url('../Assets/gear.png')";
+            } else {
+                toggleButton.style.backgroundColor = 'black';
+                toggleButton.style.backgroundImage = "url('../Assets/gear-white.png')";
+            }
+        }
+
+        function requestPermission() {
+            if (typeof DeviceMotionEvent.requestPermission === "function") {
+                DeviceMotionEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === "granted") {
+                            redirectToBumpGo();
+                        } else {
+                            alert("Permission to access motion sensors was denied.");
+                            redirectToBumpGo();
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                redirectToBumpGo();
+            }
+        }
+
+        function redirectToBumpGo() {
+            window.location.href = 'BUMPGO.html';
+        }
+    </script>
 </body>
 </html>
