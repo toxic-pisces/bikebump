@@ -140,8 +140,8 @@
         #extraButton:hover { background-image: url('../Assets/checklist-white.png'); }
         #routeInfo {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 130px;
+            left: 50px;
             background-color: white;
             border: 3px solid black;
             border-radius: 5px;
@@ -444,7 +444,6 @@
             const distance = (route.distance / 1000).toFixed(2);
             const duration = (route.duration * 6  / 60).toFixed(0);
             routeInfo.innerHTML = `
-                <strong>Fahrrad-Route:</strong><br>
                 Entfernung: ${distance} km<br>
                 Geschätzte Dauer: ${duration} Minuten
             `;
