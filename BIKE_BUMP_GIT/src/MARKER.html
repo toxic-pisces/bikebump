@@ -22,25 +22,24 @@
       body {
         margin: 0;
         padding: 0;
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         font-family: "Nexa", sans-serif;
         background-color: black;
       }
 
       #nameInputContainer {
+        width: 100%;
         display: flex;
-        position: absolute;
-        top: 10px;
+        justify-content: center;
         align-items: center;
-        margin-bottom: 130px;
+        padding: 20px 0;
       }
 
       #nameInput {
-        margin-top: 20px;
         font-family: "Nexa", sans-serif;
         padding: 10px;
         font-size: 16px;
@@ -52,7 +51,6 @@
 
       #editButton {
         margin-left: 10px;
-        margin-top: 20px;
         font-family: "Nexa", sans-serif;
         font-size: 16px;
         padding: 10px 20px;
@@ -90,40 +88,43 @@
       }
 
       .roundButtonContainer {
-        position: absolute;
         display: flex;
         justify-content: center;
         align-items: center;
-        bottom: 120px;
+        flex-wrap: wrap;
+        padding: 20px 10px;
         width: 100%;
-        padding: 0 10px;
         box-sizing: border-box;
       }
 
       .roundButton {
         font-family: "Nexa", sans-serif;
-        font-size: 16px;
-        width: 100px;
-        height: 100px;
-        margin: 0 10px;
+        font-size: 14px;
+        width: 80px;
+        height: 80px;
+        margin: 5px;
         border: none;
         border-radius: 50%;
         background-color: transparent;
         color: #fff;
         border: 3px solid #ccc;
         cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        word-wrap: break-word;
+        padding: 5px;
+        box-sizing: border-box;
       }
 
       #imageAndButtonContainer {
-        position: absolute;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        top: 50%;
-        transform: translateY(-50%);
         width: 100%;
-        padding: 0 10px;
+        padding: 20px 10px;
         box-sizing: border-box;
       }
 
@@ -152,6 +153,14 @@
       }
 
       @media (max-width: 600px) {
+        body {
+          justify-content: flex-start;
+        }
+
+        #nameInputContainer {
+          padding: 10px 0;
+        }
+
         .imageContainer img {
           width: 150px;
         }
@@ -161,11 +170,15 @@
           padding: 8px 12px;
         }
 
+        .roundButtonContainer {
+          padding: 10px 5px;
+        }
+
         .roundButton {
-          width: 80px;
-          height: 80px;
+          width: 60px;
+          height: 60px;
           font-size: 12px;
-          margin: 0 5px;
+          margin: 3px;
         }
       }
     </style>
@@ -175,17 +188,18 @@
       <input type="text" id="nameInput" placeholder="Name" />
       <button id="editButton" onclick="enableEditing()">Ändern</button>
     </div>
+    <div class="imageContainer">
+      <button class="changeImageButton" onclick="changeImage('character', 'prev')"><-</button>
+      <img id="characterImage" src="../Assets/held.png" alt="Charakter" />
+      <button class="changeImageButton" onclick="changeImage('character', 'next')">-></button>
+    </div>
     <div id="imageAndButtonContainer">
       <div class="imageContainer">
         <button class="changeImageButton" onclick="changeImage('bike', 'prev')"><-</button>
         <img id="bikeImage" src="../Assets/fahrrad-2.png" alt="Fahrrad" />
         <button class="changeImageButton" onclick="changeImage('bike', 'next')">-></button>
       </div>
-      <div class="imageContainer">
-        <button class="changeImageButton" onclick="changeImage('character', 'prev')"><-</button>
-        <img id="characterImage" src="../Assets/held.png" alt="Charakter" />
-        <button class="changeImageButton" onclick="changeImage('character', 'next')">-></button>
-      </div>
+      
     </div>
     <div class="roundButtonContainer">
       <button class="roundButton" onclick="changeColor(this)">KEIN LÄRM</button>
@@ -197,7 +211,7 @@
     <button id="backButton" onclick="window.location.href = 'MAP.html';">MAP</button>
 
     <script>
-      if ("serviceWorker" in navigator) {
+       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker.register("/service-worker.js").then(
             function (registration) {
