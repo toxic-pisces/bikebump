@@ -14,13 +14,22 @@
     body {
         margin: 0;
         padding: 0;
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-family: 'Nexa', sans-serif; /* Nexa als primäre Schriftart verwenden */
+        font-family: 'Nexa', sans-serif;
         background-color: black;
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        padding-bottom: 80px; /* Add padding at the bottom to make space for the button */
     }
 
     .container {
@@ -73,12 +82,12 @@
     }
 
     .text-right {
-        width: 100%; /* Ensure the text spans the full width of the right container */
+        width: 100%;
     }
 
     #BACKBUTTON {
-        position: absolute;
-        font-family: 'Nexa', sans-serif; /* Nexa als Schriftart verwenden */
+        position: fixed;
+        font-family: 'Nexa', sans-serif;
         font-size: 16px;
         bottom: 20px;
         left: 20px;
@@ -99,62 +108,63 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="left-container">
-        <img src="../Assets/stift.png" alt="Stift">
-        <div class="text-left">
-            <p>Universitätsstraße</p>
+<div class="main-content">
+    <div class="container">
+        <div class="left-container">
+            <img src="../Assets/stift.png" alt="Stift">
+            <div class="text-left">
+                <p>Universitätsstraße</p>
+            </div>
+        </div>
+        <div class="right-container">
+            <div class="text-right">
+                <p>Info der Stadt: Baustelle bis Ende Mai</p>
+            </div>
         </div>
     </div>
-    <div class="right-container">
-        <div class="text-right">
-            <p>Info der Stadt: Baustelle bis Ende Mai</p>
-        </div>
-    </div>
-</div>
 
-<div class="container containerGREEN">
-    <div class="left-container">
-        <img src="../Assets/stift.png" alt="Stift">
-        <div class="text-left">
-            <p>Haunstetterstraße</p>
+    <div class="container containerGREEN">
+        <div class="left-container">
+            <img src="../Assets/stift.png" alt="Stift">
+            <div class="text-left">
+                <p>Haunstetterstraße</p>
+            </div>
+        </div>
+        <div class="right-container">
+            <div class="text-right">
+                <p>BUMP behoben</p>
+            </div>
         </div>
     </div>
-    <div class="right-container">
-        <div class="text-right">
-            <p>BUMP behoben</p>
-        </div>
-    </div>
-</div>
 
-<div class="container containerRED">
-    <div class="left-container">
-        <img src="../Assets/stift.png" alt="Stift">
-        <div class="text-left">
-            <p>Königsstaße</p>
+    <div class="container containerRED">
+        <div class="left-container">
+            <img src="../Assets/stift.png" alt="Stift">
+            <div class="text-left">
+                <p>Königsstaße</p>
+            </div>
+        </div>
+        <div class="right-container">
+            <div class="text-right">
+                <p>BUMP kann nicht behoben werden</p>
+            </div>
         </div>
     </div>
-    <div class="right-container">
-        <div class="text-right">
-            <p>BUMP kann nicht behoben werden</p>
-        </div>
-    </div>
-</div>
 
-<div class="container">
-    <div class="left-container">
-        <img src="../Assets/stift.png" alt="Stift">
-        <div class="text-left">
-            <p>Ludwigsstaße</p>
+    <div class="container">
+        <div class="left-container">
+            <img src="../Assets/stift.png" alt="Stift">
+            <div class="text-left">
+                <p>Ludwigsstaße</p>
+            </div>
         </div>
-    </div>
-    <div class="right-container">
-        <div class="text-right">
-            <p>Info der Stadt:<br>Wir kümmern uns drum!</p>
+        <div class="right-container">
+            <div class="text-right">
+                <p>Info der Stadt:<br>Wir kümmern uns drum!</p>
+            </div>
         </div>
     </div>
 </div>
-    
 
 <button id="BACKBUTTON" onclick="window.location.href = 'MAP.html';">ZURÜCK</button>
 
