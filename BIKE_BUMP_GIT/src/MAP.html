@@ -96,7 +96,7 @@
             width: 35px;
             height: 35px;
         }
-        #redButton { background-color: green; background-image: url('../Assets/helm.png'); }
+        #redButton { background-color: orange; background-image: url('../Assets/helm.png'); }
         #blueButton { background-color: red; background-image: url('../Assets/schlagloch.png'); }
         .circular-button {
             position: absolute;
@@ -152,7 +152,7 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        let map, addMode = false, markers = [], currentColor = 'green', tempMarker;
+        let map, addMode = false, markers = [], currentColor = 'orange', tempMarker;
         const descriptionInput = document.getElementById('descriptionInput');
         const colorButtons = document.getElementById('colorButtons');
         const addButton = document.getElementById('addButton');
@@ -201,7 +201,7 @@
             this.classList.add('selected');
             this.style.width = '35px';
             this.style.height = '35px';
-            currentColor = this.id === 'redButton' ? 'green' : 'red';
+            currentColor = this.id === 'redButton' ? 'orange' : 'red';
         }
 
         function handleMapClick(event) {
@@ -216,7 +216,7 @@
         }
 
         function addMarker(latlng, description, color) {
-            var imageUrl = color === 'green' ? '../Assets/helm.png' : '../Assets/schlagloch.png';
+            var imageUrl = color === 'orange' ? '../Assets/helm.png' : '../Assets/schlagloch.png';
             var markerIcon = L.divIcon({
                 className: 'custom-marker',
                 html: `<div style="background-color: ${color}; width: 30px; height: 30px; border-radius: 50%; background-image: url('${imageUrl}'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></div>`
