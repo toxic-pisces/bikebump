@@ -59,6 +59,12 @@
         #addButton { bottom: 80px; right: 20px; }
         #GoButton { bottom: 20px; right: 20px; }
         #highButton { top: 20px; right: 20px; }
+        #routeButton {
+            left: 180px;
+            top: 76px;
+            transform: translateX(-50%);
+            width: 256px;
+        }
         #descriptionInput {
             position: absolute;
             bottom: 200px;
@@ -132,12 +138,47 @@
         #markerLink:hover { background-image: url('../Assets/nutzer-white.png'); }
         #sButton:hover { background-image: url('../Assets/ranglisten-white.png'); }
         #extraButton:hover { background-image: url('../Assets/checklist-white.png'); }
+        #routeInfo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            border: 3px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 1000;
+            display: none;
+        }
+        
+        #gpsButton {
+            position: absolute;
+            top: 12px;
+            left: 440px;
+            z-index: 1000;
+            width: 40px;
+            height: 26px;
+            background-color: white;
+            border: 3px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Nexa';
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+        #gpsButton:hover {
+            background-color: black;
+            color: white;
+        }
+
     </style>
 </head>
 <body>
     <div id="map"></div>
     <input type="text" id="searchBar" class="input-field" placeholder="START">
+    <button id="gpsButton">GPS</button>
     <input type="text" id="searchBar2" class="input-field" placeholder="ZIEL">
+    <button id="routeButton" class="button">ROUTE</button>
     <button id="addButton" class="button">BUMP</button>
     <button id="GoButton" class="button" onclick="requestPermission();">BUMP GO</button>
     <textarea id="descriptionInput" placeholder="Beschreibung eingeben..."></textarea>
@@ -149,13 +190,17 @@
     <button id="markerLink" class="circular-button" onclick="window.location.href = 'MARKER.html';"></button>
     <button id="sButton" class="circular-button" onclick="window.location.href = 'LISTE.html';"></button>
     <button id="extraButton" class="circular-button" onclick="window.location.href = 'AKTIVLISTE.html';"></button>
+    <div id="routeInfo"></div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        let map, addMode = false, markers = [], currentColor = 'orange', tempMarker;
+       let map, addMode = false, markers = [], currentColor = 'orange', tempMarker;
+        let routeLayer;
         const descriptionInput = document.getElementById('descriptionInput');
         const colorButtons = document.getElementById('colorButtons');
         const addButton = document.getElementById('addButton');
+        const routeButton = document.getElementById('routeButton');
+        const routeInfo = document.getElementById('routeInfo');
 
         const markerList = [
             { lat: 48.370709, lng: 10.901640, description: "Hier bin ich gestern von einem Auto mit Türkeiflagge angefahren worden", type: "pothole" },
@@ -195,6 +240,23 @@
             document.querySelectorAll('.colorButton').forEach(button => {
                 button.addEventListener('click', selectColor);
             });
+            routeButton.addEventListener('click', calculateRoute);
+            document.getElementById('gpsButton').addEventListener('click', useCurrentLocation);
+        }
+
+        function useCurrentLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    document.getElementById('searchBar').value = `${lat}, ${lon}`;
+                    map.setView([lat, lon], 15);
+                }, function(error) {
+                    alert("Error: " + error.message);
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
         }
 
         function toggleAddMode() {
@@ -328,6 +390,67 @@
         function redirectToBumpGo() {
             window.location.href = 'BUMPGO.html';
         }
+
+        async function calculateRoute() {
+            const start = document.getElementById('searchBar').value;
+            const end = document.getElementById('searchBar2').value;
+
+            if (!start || !end) {
+                alert('Bitte geben Sie sowohl Start- als auch Zieladresse ein.');
+                return;
+            }
+
+            try {
+                const startCoords = await geocodeAddress(start);
+                const endCoords = await geocodeAddress(end);
+
+                const route = await getRoute(startCoords, endCoords);
+                displayRoute(route);
+            } catch (error) {
+                alert('Fehler bei der Routenberechnung: ' + error.message);
+            }
+        }
+
+        async function geocodeAddress(address) {
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+            const data = await response.json();
+            if (data.length === 0) throw new Error('Adresse nicht gefunden');
+            return [parseFloat(data[0].lon), parseFloat(data[0].lat)]; // Beachten Sie die Reihenfolge: [lon, lat]
+        }
+
+        async function getRoute(start, end) {
+            const url = `http://router.project-osrm.org/route/v1/foot/${start[0]},${start[1]};${end[0]},${end[1]}?overview=full&geometries=geojson`;
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.code !== 'Ok') {
+                throw new Error('Route konnte nicht berechnet werden');
+            }
+            
+            return data.routes[0];
+        }
+
+        function displayRoute(route) {
+            if (routeLayer) {
+                map.removeLayer(routeLayer);
+            }
+
+            routeLayer = L.geoJSON(route.geometry).addTo(map);
+            map.fitBounds(routeLayer.getBounds());
+
+            // Routeninformationen anzeigen
+            const distance = (route.distance / 1000).toFixed(2);
+            const duration = (route.duration * 6  / 60).toFixed(0);
+            routeInfo.innerHTML = `
+                <strong>Fahrrad-Route:</strong><br>
+                Entfernung: ${distance} km<br>
+                Geschätzte Dauer: ${duration} Minuten
+            `;
+            routeInfo.style.display = 'block';
+        }
+
+
     </script>
 </body>
 </html>
