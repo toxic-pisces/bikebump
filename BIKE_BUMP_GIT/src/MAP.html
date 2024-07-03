@@ -153,18 +153,19 @@
         #gpsButton {
             position: absolute;
             top: 12px;
-            left: 440px;
+            left: 315px;
             z-index: 1000;
-            width: 40px;
+            width: 26px;
             height: 26px;
             background-color: white;
             border: 3px solid black;
             border-radius: 5px;
             cursor: pointer;
-            font-family: 'Nexa';
-            font-size: 14px;
             transition: background-color 0.3s, color 0.3s;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         #gpsButton:hover {
             background-color: black;
@@ -176,7 +177,7 @@
 <body>
     <div id="map"></div>
     <input type="text" id="searchBar" class="input-field" placeholder="START">
-    <button id="gpsButton">GPS</button>
+    <button id="gpsButton"><img src="../Assets/stift-schwarz.png" alt="GPS" style="width: 15px; height: 15px;"></button>
     <input type="text" id="searchBar2" class="input-field" placeholder="ZIEL">
     <button id="routeButton" class="button">ROUTE</button>
     <button id="addButton" class="button">BUMP</button>
