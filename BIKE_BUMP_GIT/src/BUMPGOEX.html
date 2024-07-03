@@ -3,126 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Image Crop with Overlay</title>
+    <title>Map Zoom to Specific Street</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-            @font-face {
-        font-family: 'Nexa';
-        src: url('../Assets/Fonts/Nexa\ Bold.otf') format('opentype'); /* Passe den Pfad entsprechend an */
-        font-weight: normal;
-        font-style: normal;
-    }
+        @font-face {
+            font-family: 'Nexa';
+            src: url('../Assets/Fonts/Nexa Bold.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
         body {
             margin: 0;
-            overflow: hidden; /* Verhindert Scrollbars */
-            position: relative; /* Für das absolute Positionieren der Kinder */
+            overflow: hidden;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
             background-color: black;
         }
-        #imageContainer {
-            width: 100vw; /* Volle Breite des Viewports */
-            height: 100vh; /* Volle Höhe des Viewports */
-            overflow: hidden; /* Versteckt den überflüssigen Teil des Bildes */
-            position: absolute; /* Container ist absolut positioniert */
+        #mapContainer {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
             top: 0;
             left: 0;
-        }
-        #mapImage {
-            position: absolute;
+            z-index: 0;
         }
         #heldImage {
             position: absolute;
-            width: 35%; /* Anfangsgröße */
-            height: auto; /* Beibehaltung des Seitenverhältnisses */
-            top: 50%; /* Mitte des Containers */
-            left: 50%; /* Mitte des Containers */
-            transform: translate(-50%, -50%); /* Zentrierung */
-            transition: transform 2s, width 2s; /* Übergangseffekt */
-            z-index: 1; /* Über dem Hintergrundbild */
+            width: 35%;
+            height: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 2s, width 2s;
+            z-index: 1;
         }
         #textfeld {
             position: absolute;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            color: white; /* Schwarzer Text */
-            background-color: black; /* Weißer Hintergrund */
-            border: 3px solid black; /* Schwarzer Rand */
-            padding: 10px; /* Innenabstand */
+            color: white;
+            background-color: black;
+            border: 3px solid black;
+            padding: 10px;
             font-size: 24px;
             border-radius: 5px;
             text-align: center;
             font-family: 'Nexa';
-            z-index: 2; /* Über dem Held-Bild */
-            display: none; /* Anfangs versteckt */
+            z-index: 2;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div id="imageContainer">
-        <img id="mapImage" src="../Assets/realemapapap.png" alt="Map">
-    </div>
-    <img id="heldImage" src="../Assets/stift-schwarz.png" alt="Held">
+    <div id="mapContainer"></div>
+    <!-- <img id="heldImage" src="../Assets/stift-schwarz.png" alt="Held"> -->
     <div id="textfeld">Markierung gesetzt!<br><span id="strasse"></span></div>
 
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         window.onload = function() {
-            var mapImage = document.getElementById("mapImage");
-            var container = document.getElementById("imageContainer");
+            // Initialize the map
+            var map = L.map('mapContainer').setView([51.505, -0.09], 13);
 
-            var containerWidth = container.clientWidth;
-            var containerHeight = container.clientHeight;
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
-            var imageWidth = mapImage.naturalWidth;
-            var imageHeight = mapImage.naturalHeight;
+            // List of streets with their coordinates
+            var strassen = [
+                { name: "An der Hochschule", lat: 48.359534, lng: 10.906149 },
+                { name: "Universitätsstraße", lat: 48.332590, lng: 10.894926 },
+                { name: "Rathausplatz", lat: 48.368876, lng: 10.897881 },
+                { name: "Am Schäffelbach", lat: 48.364992, lng: 10.904086 },
+                { name: "Flos Haus", lat: 48.366963, lng: 10.915858 },
+                { name: "Oberhausen Bahnhof", lat: 48.381202, lng: 10.873092}
+            ];
 
-            // Warte, bis das Bild vollständig geladen ist, um die natürlichen Dimensionen zu erhalten
-            if (imageWidth === 0 || imageHeight === 0) {
-                mapImage.onload = function() {
-                    imageWidth = mapImage.naturalWidth;
-                    imageHeight = mapImage.naturalHeight;
-                    setRandomPosition();
-                }
-            } else {
-                setRandomPosition();
+            // Select a random street
+            var randomIndex = Math.floor(Math.random() * strassen.length);
+            var selectedStreet = strassen[randomIndex];
+
+            // Function to zoom to the selected street
+            function zoomToStreet(street) {
+                map.setView([street.lat, street.lng], 20);
+                L.marker([street.lat, street.lng]).addTo(map);
             }
 
-            function setRandomPosition() {
-                // Generiere zufällige Positionen für den Ausschnitt
-                var maxX = imageWidth - containerWidth;
-                var maxY = imageHeight - containerHeight;
+            // Wait for the map to fully load before zooming to the street
+            map.whenReady(function() {
+                zoomToStreet(selectedStreet);
+            });
 
-                var randomX = Math.floor(Math.random() * maxX);
-                var randomY = Math.floor(Math.random() * maxY);
-
-                // Setze die Position des Bildes so, dass ein zufälliger Ausschnitt angezeigt wird
-                mapImage.style.left = -randomX + 'px';
-                mapImage.style.top = -randomY + 'px';
-            }
-
-            // Animation für das Held-Bild
-            var heldImage = document.getElementById("heldImage");
-            setTimeout(function() {
-                heldImage.style.width = "20%"; // Neue Größe
-                heldImage.style.transform = "translate(-50%, -50%)"; // Zentriert bleiben
-            }, 100); // 100 ms Verzögerung für die Animation
-
-            // Textfeld anzeigen
+            // Show text field
             setTimeout(function() {
                 document.getElementById("textfeld").style.display = "block";
-                // Wähle eine zufällige Straße aus
-                var strassen = ["An der Hochschule", "Universitätsstraße", "Rathausplatz", "Königsstraße"];
-                var randomIndex = Math.floor(Math.random() * strassen.length);
-                document.getElementById("strasse").innerText = strassen[randomIndex];
-            }, 2100); // 2 Sekunden für die Bildanimation + 100 ms Puffer
-        }
-                    // Weiterleitung nach 7 Sekunden
-                    setTimeout(function() {
+                document.getElementById("strasse").innerText = selectedStreet.name;
+            }, 2100);
+
+            // Redirect after 7 seconds
+            setTimeout(function() {
                 window.location.href = "BUMPGO.html";
-            }, 7000); // 7 Sekunden
+            }, 7000);
+        }
     </script>
 </body>
 </html>
-
