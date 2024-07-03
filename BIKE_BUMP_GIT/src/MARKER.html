@@ -11,11 +11,10 @@
     <link rel="icon" href="../Assets/BIKE_BUMP.ico" type="image/x-icon" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-    <!-- Importieren der Schriftart Nexa -->
     <style>
       @font-face {
         font-family: "Nexa";
-        src: url("Nexa Bold.otf") format("opentype"); /* Passe den Pfad entsprechend an */
+        src: url("Nexa Bold.otf") format("opentype");
         font-weight: normal;
         font-style: normal;
       }
@@ -28,23 +27,21 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-family: "Nexa", sans-serif; /* Nexa als primäre Schriftart verwenden */
+        font-family: "Nexa", sans-serif;
         background-color: black;
       }
 
-      /* Stil für den Namen-Eingabebereich */
       #nameInputContainer {
         display: flex;
         position: absolute;
         top: 10px;
-
         align-items: center;
         margin-bottom: 130px;
       }
 
       #nameInput {
         margin-top: 20px;
-        font-family: "Nexa", sans-serif; /* Nexa als Schriftart verwenden */
+        font-family: "Nexa", sans-serif;
         padding: 10px;
         font-size: 16px;
         color: white;
@@ -53,12 +50,10 @@
         background-color: transparent;
       }
 
-      /* Stil für den Button zum Bearbeiten des Namens-Eingabebereichs */
       #editButton {
         margin-left: 10px;
         margin-top: 20px;
-
-        font-family: "Nexa", sans-serif; /* Nexa als Schriftart verwenden */
+        font-family: "Nexa", sans-serif;
         font-size: 16px;
         padding: 10px 20px;
         border: none;
@@ -68,15 +63,15 @@
         color: white;
         cursor: pointer;
       }
+
       #editButton:hover {
         background-color: white;
         color: black;
       }
 
-      /* Stil für den Zurück-Button */
       #backButton {
         position: absolute;
-        font-family: "Nexa", sans-serif; /* Nexa als Schriftart verwenden */
+        font-family: "Nexa", sans-serif;
         font-size: 16px;
         bottom: 20px;
         left: 20px;
@@ -88,21 +83,21 @@
         border: 2px solid #ccc;
         cursor: pointer;
       }
+
       #backButton:hover {
         background-color: white;
         color: black;
       }
 
-      /* Stil für runde Buttons */
       .roundButtonContainer {
         position: absolute;
         display: flex;
         justify-content: center;
         align-items: center;
         bottom: 120px;
-        width: 100%; /* Stellt sicher, dass der Container die gesamte Breite des Bildschirms nutzt */
-        padding: 0 10px; /* Fügt etwas Polsterung an den Seiten hinzu */
-        box-sizing: border-box; /* Bezieht Polsterung und Rahmen in die Breiten- und Höhenberechnung mit ein */
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
       }
 
       .roundButton {
@@ -110,7 +105,7 @@
         font-size: 16px;
         width: 100px;
         height: 100px;
-        margin: 0 10px; /* Abstand zwischen den Buttons horizontal */
+        margin: 0 10px;
         border: none;
         border-radius: 50%;
         background-color: transparent;
@@ -122,35 +117,33 @@
       #imageAndButtonContainer {
         position: absolute;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        margin-bottom: 75px; /* Abstand nach oben */
-        flex-wrap: wrap; /* Ermöglicht das Umbrechen bei kleinen Bildschirmen */
-        justify-content: center; /* Zentriert den Inhalt horizontal */
-        width: 100%; /* Stellt sicher, dass der Container die gesamte Breite des Bildschirms nutzt */
-        padding: 0 10px; /* Fügt etwas Polsterung an den Seiten hinzu */
-        box-sizing: border-box; /* Bezieht Polsterung und Rahmen in die Breiten- und Höhenberechnung mit ein */
+        justify-content: center;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
       }
 
-      /* Stil für den Bildcontainer */
-      #imageContainer {
+      .imageContainer {
         display: flex;
         align-items: center;
-        margin-top: 5px; /* Abstand nach oben */
-        margin-right: 20px;
+        justify-content: center;
+        margin: 10px 0;
       }
 
-      #imageContainer img {
-        width: 200px; /* Breite des Bildes anpassen */
-        height: auto; /* Höhe automatisch anpassen */
+      .imageContainer img {
+        width: 200px;
+        height: auto;
+        margin: 0 10px;
       }
 
-      /* Stil für den Button */
-      #changeImageButton {
-        margin-left: 25px;
-        margin-right: 45px;
-        font-family: "Nexa", sans-serif; /* Nexa als Schriftart verwenden */
+      .changeImageButton {
+        font-family: "Nexa", sans-serif;
         font-size: 16px;
-        padding: 10px 20px;
+        padding: 10px 15px;
         border: none;
         border-radius: 5px;
         background-color: white;
@@ -158,134 +151,57 @@
         cursor: pointer;
       }
 
-      /* Media Query für kleinere Bildschirme */
-      @media (max-width: 1200px) {
-        #imageContainer img {
-          width: 180px; /* Verkleinert das Bild */
-        }
-
-        #changeImageButton {
-          font-size: 14px; /* Anpassung der Schriftgröße */
-          padding: 8px 18px; /* Verkleinert den Button */
-          margin-left: 20px;
-          margin-right: 40px;
-        }
-        .roundButton {
-          width: 90px; /* Verkleinert die Buttons */
-          height: 90px;
-          font-size: 14px; /* Anpassung der Schriftgröße */
-          margin: 0 8px; /* Verringert den horizontalen Abstand */
-        }
-      }
-
-      @media (max-width: 900px) {
-        #imageContainer img {
-          width: 150px; /* Weitere Verkleinerung des Bildes */
-        }
-
-        #changeImageButton {
-          font-size: 12px; /* Weitere Anpassung der Schriftgröße */
-          padding: 6px 16px; /* Weitere Verkleinerung des Buttons */
-          margin-left: 15px;
-          margin-right: 30px;
-        }
-        .roundButton {
-          width: 80px; /* Weitere Verkleinerung der Buttons */
-          height: 80px;
-          font-size: 12px; /* Weitere Anpassung der Schriftgröße */
-          margin: 0 6px; /* Weiteres Verringern des horizontalen Abstands */
-        }
-      }
-
       @media (max-width: 600px) {
-        #imageContainer img {
-          width: 120px; /* Noch kleinere Bilder */
+        .imageContainer img {
+          width: 150px;
         }
 
-        #changeImageButton {
-          font-size: 10px; /* Noch kleinere Schriftgröße */
-          padding: 4px 14px; /* Noch kleinere Buttons */
-          margin-left: 10px;
-          margin-right: 20px;
+        .changeImageButton {
+          font-size: 14px;
+          padding: 8px 12px;
         }
+
         .roundButton {
-          width: 70px; /* Noch kleinere Buttons */
-          height: 70px;
-          font-size: 10px; /* Noch kleinere Schriftgröße */
-          margin: 0 4px; /* Minimaler horizontaler Abstand */
-        }
-      }
-
-      @media (max-width: 400px) {
-        #imageContainer img {
-          width: 100px; /* Minimalgröße des Bildes */
-        }
-
-        #changeImageButton {
-          font-size: 8px; /* Minimalgröße der Schrift */
-          padding: 2px 10px; /* Minimalgröße des Buttons */
-          margin-left: 5px;
-          margin-right: 10px;
-        }
-        .roundButton {
-          width: 60px; /* Minimalgröße der Buttons */
-          height: 60px;
-          font-size: 8px; /* Minimalgröße der Schrift */
-          margin: 0 2px; /* Minimaler Abstand */
+          width: 80px;
+          height: 80px;
+          font-size: 12px;
+          margin: 0 5px;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Name-Eingabebereich -->
     <div id="nameInputContainer">
       <input type="text" id="nameInput" placeholder="Name" />
       <button id="editButton" onclick="enableEditing()">Ändern</button>
     </div>
     <div id="imageAndButtonContainer">
-      <!-- Bildcontainer -->
-      <div id="imageContainer">
-        <button id="changeImageButton" onclick="changeImage()"><-</button>
+      <div class="imageContainer">
+        <button class="changeImageButton" onclick="changeImage('bike', 'prev')"><-</button>
         <img id="bikeImage" src="../Assets/fahrrad-2.png" alt="Fahrrad" />
+        <button class="changeImageButton" onclick="changeImage('bike', 'next')">-></button>
       </div>
-
-      <!-- Button zum Wechseln des Bildes -->
-
-      <div id="imageContainer">
-        <img id="bikeImage2" src="../Assets/held.png" alt="Fahrrad" />
+      <div class="imageContainer">
+        <button class="changeImageButton" onclick="changeImage('character', 'prev')"><-</button>
+        <img id="characterImage" src="../Assets/held.png" alt="Charakter" />
+        <button class="changeImageButton" onclick="changeImage('character', 'next')">-></button>
       </div>
-
-      <!-- Button zum Wechseln des Bildes -->
-      <button id="changeImageButton" onclick="changeImage2()">-></button>
     </div>
-    <div id="imageAndButtonContainer">
-      <!-- Bildcontainer -->
-    </div>
-    <!-- Runde Buttons -->
     <div class="roundButtonContainer">
       <button class="roundButton" onclick="changeColor(this)">KEIN LÄRM</button>
       <button class="roundButton" onclick="changeColor(this)">ZEIT</button>
-      <button class="roundButton" onclick="changeColor(this)">
-        KEINE AUTOS
-      </button>
+      <button class="roundButton" onclick="changeColor(this)">KEINE AUTOS</button>
       <button class="roundButton" onclick="changeColor(this)">NATUR</button>
       <button class="roundButton" onclick="changeColor(this)">GUTE WEGE</button>
     </div>
-
-    <!-- Zurück-Button -->
-    <button id="backButton" onclick="window.location.href = 'MAP.html';">
-      MAP
-    </button>
+    <button id="backButton" onclick="window.location.href = 'MAP.html';">MAP</button>
 
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker.register("/service-worker.js").then(
             function (registration) {
-              console.log(
-                "ServiceWorker registration successful with scope: ",
-                registration.scope
-              );
+              console.log("ServiceWorker registration successful with scope: ", registration.scope);
             },
             function (err) {
               console.log("ServiceWorker registration failed: ", err);
@@ -294,57 +210,44 @@
         });
       }
 
-      var currentImage = 1; // Aktuelle Bildnummer
+      var currentBikeImage = 0;
+      var currentCharacterImage = 0;
+      var bikeImages = ["../Assets/fahrrad-2.png", "../Assets/e-bike-2.png", "../Assets/e-bike-3.png"];
+      var characterImages = ["../Assets/held.png", "../Assets/ritter.png", "../Assets/ninja.png", "../Assets/oma.png", "../Assets/arzt.png"];
 
-      // Funktion zum Aktivieren der Bearbeitung des Namens-Eingabebereichs
       function enableEditing() {
         var nameInput = document.getElementById("nameInput");
-        nameInput.removeAttribute("readonly"); // readonly-Attribut entfernen, um das Feld bearbeitbar zu machen
-        nameInput.focus(); // Cursor in das Eingabefeld setzen
+        nameInput.removeAttribute("readonly");
+        nameInput.focus();
       }
 
-      // Funktion für den Zurück-Button
-      function goBack() {
-        window.history.back();
-      }
-
-      // Funktion zum Ändern des Bildes
-      function changeImage() {
-        var bikeImage = document.getElementById("bikeImage");
-
-        // Wechseln zwischen den Bildern basierend auf der aktuellen Bildnummer
-        if (currentImage === 1) {
-          bikeImage.src = "../Assets/fahrrad-2.png";
-          currentImage = 2;
-        } else if (currentImage === 2) {
-          bikeImage.src = "../Assets/e-bike-2.png";
-          currentImage = 3;
+      function changeImage(type, direction) {
+        let currentIndex, images, imageElement;
+        if (type === 'bike') {
+          currentIndex = currentBikeImage;
+          images = bikeImages;
+          imageElement = document.getElementById("bikeImage");
         } else {
-          bikeImage.src = "../Assets/e-bike-3.png";
-          currentImage = 1;
+          currentIndex = currentCharacterImage;
+          images = characterImages;
+          imageElement = document.getElementById("characterImage");
+        }
+
+        if (direction === 'next') {
+          currentIndex = (currentIndex + 1) % images.length;
+        } else {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+        }
+
+        imageElement.src = images[currentIndex];
+
+        if (type === 'bike') {
+          currentBikeImage = currentIndex;
+        } else {
+          currentCharacterImage = currentIndex;
         }
       }
-      function changeImage2() {
-        var bikeImage = document.getElementById("bikeImage");
 
-        // Wechseln zwischen den Bildern basierend auf der aktuellen Bildnummer
-        if (currentImage === 1) {
-          bikeImage2.src = "../Assets/ritter.png";
-          currentImage = 2;
-        } else if (currentImage === 2) {
-          bikeImage2.src = "../Assets/ninja.png";
-          currentImage = 3;
-        } else if (currentImage === 3) {
-          bikeImage2.src = "../Assets/oma.png";
-          currentImage = 4;
-        } else if (currentImage === 4) {
-          bikeImage2.src = "../Assets/arzt.png";
-          currentImage = 5;
-        } else {
-          bikeImage2.src = "../Assets/held.png";
-          currentImage = 1;
-        }
-      }
       function changeColor(button) {
         if (button.style.color === "black") {
           button.style.color = "#fff";
@@ -352,6 +255,45 @@
         } else {
           button.style.color = "black";
           button.style.backgroundColor = "#fff";
+        }
+      }
+
+      // Add swipe functionality
+      let touchstartX = 0;
+      let touchendX = 0;
+      let touchstartY = 0;
+      let touchendY = 0;
+
+      document.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+        touchstartY = e.changedTouches[0].screenY;
+      });
+
+      document.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        touchendY = e.changedTouches[0].screenY;
+        handleSwipe();
+      });
+
+      function handleSwipe() {
+        let deltaX = touchendX - touchstartX;
+        let deltaY = touchendY - touchstartY;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          // Horizontal swipe
+          if (deltaX < 0) {
+            if (touchstartY < window.innerHeight / 2) {
+              changeImage('bike', 'next');
+            } else {
+              changeImage('character', 'next');
+            }
+          } else {
+            if (touchstartY < window.innerHeight / 2) {
+              changeImage('bike', 'prev');
+            } else {
+              changeImage('character', 'prev');
+            }
+          }
         }
       }
     </script>
