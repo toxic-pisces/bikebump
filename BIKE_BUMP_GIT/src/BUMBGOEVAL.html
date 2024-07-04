@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Bike Bump" />
+    <link rel="apple-touch-icon" href="../Assets/BIKE_BUMP.png" />
+    <link rel="manifest" href="../manifest.json" />
+    <title>BIKE BUMP</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        @font-face {
+            font-family: 'Nexa';
+            src: url('../Assets/Fonts/Nexa Bold.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Nexa', Arial, sans-serif;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+        .button {
+            position: absolute;
+            background-color: white;
+            color: black;
+            border: 3px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: 'Nexa';
+            transition: background-color 0.3s, color 0.3s;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .button:hover {
+            background-color: black;
+            color: white;
+        }
+        #addButton { bottom: 80px; right: 20px; }
+        #GoButton { bottom: 20px; right: 20px; }
+        #highButton { top: 20px; right: 20px; }
+        #routeButton {
+            left: 180px;
+            top: 76px;
+            transform: translateX(-50%);
+            width: 256px;
+        }
+        #descriptionInput {
+            position: absolute;
+            bottom: 200px;
+            right: 20px;
+            background-color: white;
+            border: 3px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            width: 200px;
+            height: 100px;
+            resize: none;
+            display: none;
+            z-index: 1000;
+        }
+        #colorButtons {
+            position: absolute;
+            bottom: 140px;
+            right: 20px;
+            display: none;
+            z-index: 1000;
+        }
+        .colorButton {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            background-size: 20px 20px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .colorButton.selected {
+            width: 35px;
+            height: 35px;
+        }
+        #redButton { background-color: orange; background-image: url('../Assets/helm.png'); }
+        #blueButton { background-color: red; background-image: url('../Assets/schlagloch.png'); }
+        .circular-button {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: white;
+            border: 3px solid black;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, color 0.3s;
+            display: none;
+            background-size: 30px;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1000;
+        }
+        .circular-button:hover {
+            background-color: black;
+        }
+        #toggleButton {
+            display: block;
+            width: 60px;
+            height: 60px;
+            background-image: url('../Assets/gear.png');
+            background-size: 40px;
+        }
+        #markerLink { background-image: url('../Assets/nutzer.png'); }
+        #sButton { background-image: url('../Assets/ranglisten.png'); }
+        #extraButton { background-image: url('../Assets/checklist.png'); }
+        #markerLink:hover { background-image: url('../Assets/nutzer-white.png'); }
+        #sButton:hover { background-image: url('../Assets/ranglisten-white.png'); }
+        #extraButton:hover { background-image: url('../Assets/checklist-white.png'); }
+        #routeInfo {
+            position: absolute;
+            top: 130px;
+            left: 50px;
+            background-color: white;
+            border: 3px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 1000;
+            display: none;
+        }
+        
+        #gpsButton {
+            position: absolute;
+            top: 12px;
+            left: 315px;
+            z-index: 1000;
+            width: 26px;
+            height: 26px;
+            background-color: white;
+            border: 3px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #gpsButton:hover {
+            background-color: black;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+       let map, addMode = false, markers = [], currentColor = 'orange', tempMarker;
+        let routeLayer;
+        let endMarker = null;
+        const descriptionInput = document.getElementById('descriptionInput');
+        const colorButtons = document.getElementById('colorButtons');
+        const addButton = document.getElementById('addButton');
+        const routeButton = document.getElementById('routeButton');
+        const routeInfo = document.getElementById('routeInfo');
+
+        
+
+        window.onload = function() {
+            initializeMap();
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    data.markerList.forEach(marker => {
+                        placeCustomMarker(marker.lat, marker.lng, marker.description, marker.type);
+                    });
+                });
+            calculateRoute();
+
+        }
+
+        function initializeMap() {
+            // Coordinates for Augsburg, Germany
+            const augsburgCoords = [48.3705, 10.8978];
+            
+            map = L.map('map').setView(augsburgCoords, 13); // Set initial zoom to 13
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+        }
+
+
+        function placeCustomMarker(lat, lng, description, markerType) {
+            // Definieren Sie die Koordinaten
+            var latlng = L.latLng(lat, lng);
+            
+            // Definieren Sie die Marker-Typen und ihre entsprechenden Farben und Bilder
+            var markerTypes = {
+                pothole: { color: 'red', image: '../Assets/schlagloch.png' },
+                construction: { color: 'orange', image: '../Assets/helm.png' },
+                // Fügen Sie hier weitere Marker-Typen hinzu
+            };
+            
+            // Wählen Sie den Marker-Typ aus oder verwenden Sie einen Standardtyp
+            var selectedType = markerTypes[markerType] || markerTypes.pothole;
+            
+            // Erstellen Sie das benutzerdefinierte Icon
+            var markerIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="background-color: ${selectedType.color}; width: 30px; height: 30px; border-radius: 50%; background-image: url('${selectedType.image}'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></div>`
+            });
+            
+            // Erstellen und platzieren Sie den Marker
+            var marker = L.marker(latlng, {icon: markerIcon}).addTo(map);
+            
+            // Fügen Sie eine Popup-Beschreibung hinzu, wenn vorhanden
+            if (description) {
+                marker.bindPopup(description);
+            }
+            
+            return marker;
+        }
+
+        async function calculateRoute() {
+
+            try {
+                const startCoords = await geocodeAddress("Anton-Fugger-Brücke Augsburg");
+                const endCoords = await geocodeAddress("Hochschule Augsburg");
+
+                const route = await getRoute(startCoords, endCoords);
+                displayRoute(route);
+            } catch (error) {
+                alert('Fehler bei der Routenberechnung: ' + error.message);
+            }
+        }
+
+        async function geocodeAddress(address) {
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+            const data = await response.json();
+            if (data.length === 0) throw new Error('Adresse nicht gefunden');
+            return [parseFloat(data[0].lon), parseFloat(data[0].lat)]; // Beachten Sie die Reihenfolge: [lon, lat]
+        }
+
+        async function getRoute(start, end) {
+            const url = `https://router.project-osrm.org/route/v1/foot/${start[0]},${start[1]};${end[0]},${end[1]}?overview=full&geometries=geojson`;
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.code !== 'Ok') {
+                throw new Error('Route konnte nicht berechnet werden');
+            }
+            
+            return data.routes[0];
+        }
+
+        function displayRoute(route) {
+            if (routeLayer) {
+                map.removeLayer(routeLayer);
+            }
+            routeLayer = L.geoJSON(route.geometry).addTo(map);
+            map.fitBounds(routeLayer.getBounds());
+
+            // Routeninformationen anzeigen
+            const distance = (route.distance / 1000).toFixed(2);
+            const duration = (route.duration * 6  / 60).toFixed(0);
+            routeInfo.innerHTML = `
+                Entfernung: ${distance} km<br>
+                Geschätzte Dauer: ${duration} Minuten
+            `;
+            routeInfo.style.display = 'block';
+
+            // Vorhandenen Zielmarker entfernen, falls vorhanden
+            if (endMarker) {
+                map.removeLayer(endMarker);
+            }
+
+            // Zielmarker am Endpunkt der Route platzieren
+            const endPoint = route.geometry.coordinates[route.geometry.coordinates.length - 1];
+            
+            // Benutzerdefiniertes grünes Icon definieren
+            const greenIcon = L.icon({
+                iconUrl: '../Assets/finish-flag.png', // Pfad zum grünen Icon
+                iconSize: [30, 41], // Größe des Icons
+                iconAnchor: [4, 41], // Punkt des Icons, der der geografischen Position entspricht
+            });
+
+            // Schritt 3: Variable mit dem neuen Zielmarker aktualisieren
+            endMarker = L.marker([endPoint[1], endPoint[0]], {icon: greenIcon}).addTo(map);
+        }
+
+
+    </script>
+</body>
+</html>
