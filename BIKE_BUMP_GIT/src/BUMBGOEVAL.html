@@ -178,10 +178,35 @@
             align-self: flex-end;
         }
 
+        #finishButton {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition-duration: 0.4s;
+            font-family: 'Nexa', Arial, sans-serif;
+            z-index: 1000;
+        }
+
+        #finishButton:hover {
+            background-color: #45a049;
+        }
+
     </style>
 </head>
 <body>
     <div id="map"></div>
+    <button id="GoButton" class="button" onclick="window.location.href = 'MAP.html';">Fertig</button>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
@@ -193,6 +218,7 @@
         const addButton = document.getElementById('addButton');
         const routeButton = document.getElementById('routeButton');
         const routeInfo = document.getElementById('routeInfo');
+        const finishButton = document.getElementById('finishButton');
 
         window.onload = function() {
             initializeMap();
@@ -205,6 +231,7 @@
                 });
             calculateRoute();
         }
+
 
         function initializeMap() {
             // Coordinates for Augsburg, Germany
