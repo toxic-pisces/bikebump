@@ -197,6 +197,7 @@
     <script>
        let map, addMode = false, markers = [], currentColor = 'orange', tempMarker;
         let routeLayer;
+        let endMarker = null;
         const descriptionInput = document.getElementById('descriptionInput');
         const colorButtons = document.getElementById('colorButtons');
         const addButton = document.getElementById('addButton');
@@ -436,7 +437,6 @@
             if (routeLayer) {
                 map.removeLayer(routeLayer);
             }
-
             routeLayer = L.geoJSON(route.geometry).addTo(map);
             map.fitBounds(routeLayer.getBounds());
 
@@ -448,6 +448,24 @@
                 Geschätzte Dauer: ${duration} Minuten
             `;
             routeInfo.style.display = 'block';
+
+            // Vorhandenen Zielmarker entfernen, falls vorhanden
+            if (endMarker) {
+                map.removeLayer(endMarker);
+            }
+
+            // Zielmarker am Endpunkt der Route platzieren
+            const endPoint = route.geometry.coordinates[route.geometry.coordinates.length - 1];
+            
+            // Benutzerdefiniertes grünes Icon definieren
+            const greenIcon = L.icon({
+                iconUrl: '../Assets/finish-flag.png', // Pfad zum grünen Icon
+                iconSize: [30, 41], // Größe des Icons
+                iconAnchor: [4, 41], // Punkt des Icons, der der geografischen Position entspricht
+            });
+
+            // Schritt 3: Variable mit dem neuen Zielmarker aktualisieren
+            endMarker = L.marker([endPoint[1], endPoint[0]], {icon: greenIcon}).addTo(map);
         }
 
 
