@@ -188,17 +188,18 @@
       <input type="text" id="nameInput" placeholder="Name" />
       <button id="editButton" onclick="enableEditing()">Ändern</button>
     </div>
+  </div>
+    <div class="imageContainer">
+      <button class="changeImageButton" onclick="changeImage('character', 'prev')"><-</button>
+      <img id="characterImage" src="../Assets/held.png" alt="Charakter" />
+      <button class="changeImageButton" onclick="changeImage('character', 'next')">-></button>
+    </div>
     <div id="imageAndButtonContainer">
       <div class="imageContainer">
         <button class="changeImageButton" onclick="changeImage('bike', 'prev')"><-</button>
         <img id="bikeImage" src="../Assets/fahrrad-2.png" alt="Fahrrad" />
         <button class="changeImageButton" onclick="changeImage('bike', 'next')">-></button>
-      </div>
-      <div class="imageContainer">
-        <button class="changeImageButton" onclick="changeImage('character', 'prev')"><-</button>
-        <img id="characterImage" src="../Assets/held.png" alt="Charakter" />
-        <button class="changeImageButton" onclick="changeImage('character', 'next')">-></button>
-      </div>
+      
       
     </div>
     <div class="roundButtonContainer">
@@ -296,13 +297,13 @@
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
           // Horizontal swipe
           if (deltaX < 0) {
-            if (touchstartY < window.innerHeight / 2) {
+            if (touchstartY > window.innerHeight / 2) {
               changeImage('bike', 'next');
             } else {
               changeImage('character', 'next');
             }
           } else {
-            if (touchstartY < window.innerHeight / 2) {
+            if (touchstartY > window.innerHeight / 2) {
               changeImage('bike', 'prev');
             } else {
               changeImage('character', 'prev');
