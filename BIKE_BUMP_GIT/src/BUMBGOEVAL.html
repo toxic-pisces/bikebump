@@ -165,15 +165,27 @@
             color: white;
         }
 
+        .popup-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .popup-textarea {
+            width: 200px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        .popup-save-button {
+            align-self: flex-end;
+        }
+
     </style>
 </head>
 <body>
     <div id="map"></div>
 
-
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-       let map, addMode = false, markers = [], currentColor = 'orange', tempMarker;
+        let map, addMode = false, currentColor = 'orange', tempMarker;
         let routeLayer;
         let endMarker = null;
         const descriptionInput = document.getElementById('descriptionInput');
@@ -182,11 +194,9 @@
         const routeButton = document.getElementById('routeButton');
         const routeInfo = document.getElementById('routeInfo');
 
-        
-
         window.onload = function() {
             initializeMap();
-            fetch('data.json')
+            fetch('eval.json')
                 .then(response => response.json())
                 .then(data => {
                     data.markerList.forEach(marker => {
@@ -194,7 +204,6 @@
                     });
                 });
             calculateRoute();
-
         }
 
         function initializeMap() {
@@ -211,32 +220,53 @@
 
 
         function placeCustomMarker(lat, lng, description, markerType) {
-            // Definieren Sie die Koordinaten
             var latlng = L.latLng(lat, lng);
             
-            // Definieren Sie die Marker-Typen und ihre entsprechenden Farben und Bilder
             var markerTypes = {
                 pothole: { color: 'red', image: '../Assets/schlagloch.png' },
                 construction: { color: 'orange', image: '../Assets/helm.png' },
-                // Fügen Sie hier weitere Marker-Typen hinzu
+                ghost: { color: 'black', image: '../Assets/geistPACGREEN.png' },
             };
             
-            // Wählen Sie den Marker-Typ aus oder verwenden Sie einen Standardtyp
             var selectedType = markerTypes[markerType] || markerTypes.pothole;
             
-            // Erstellen Sie das benutzerdefinierte Icon
             var markerIcon = L.divIcon({
                 className: 'custom-marker',
                 html: `<div style="background-color: ${selectedType.color}; width: 30px; height: 30px; border-radius: 50%; background-image: url('${selectedType.image}'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></div>`
             });
             
-            // Erstellen und platzieren Sie den Marker
             var marker = L.marker(latlng, {icon: markerIcon}).addTo(map);
             
-            // Fügen Sie eine Popup-Beschreibung hinzu, wenn vorhanden
-            if (description) {
-                marker.bindPopup(description);
+            marker.description = description || '';
+            
+            function createPopupContent(marker) {
+                return `
+                    <div class="popup-content">
+                        <textarea class="popup-textarea">${marker.description}</textarea>
+                        <button class="popup-save-button">Save</button>
+                    </div>
+                `;
             }
+            
+            marker.bindPopup(createPopupContent(marker));
+            
+            marker.on('popupopen', function() {
+                var popup = marker.getPopup();
+                var container = L.DomUtil.create('div');
+                container.innerHTML = createPopupContent(marker);
+                
+                var textarea = container.querySelector('.popup-textarea');
+                var saveButton = container.querySelector('.popup-save-button');
+                
+                L.DomEvent.on(saveButton, 'click', function() {
+                    marker.description = textarea.value;
+                    popup.setContent(createPopupContent(marker));
+                    popup.update();
+                    marker.closePopup();
+                });
+                
+                popup.setContent(container);
+            });
             
             return marker;
         }
@@ -244,8 +274,8 @@
         async function calculateRoute() {
 
             try {
-                const startCoords = await geocodeAddress("Anton-Fugger-Brücke Augsburg");
-                const endCoords = await geocodeAddress("Hochschule Augsburg");
+                const startCoords = await geocodeAddress("Mittlerer Graben 12, 86152 Augsburg");
+                const endCoords = await geocodeAddress("Schülestraße 3, 86161 Augsburg");
 
                 const route = await getRoute(startCoords, endCoords);
                 displayRoute(route);
