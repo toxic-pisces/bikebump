@@ -1,8 +1,8 @@
 {
     "markerList": [
         { "lat": 48.360926, "lng": 10.905621, "description": "Bump in der Prinzstraße", "type": "pothole" },
-        { "lat": 48.362865, "lng": 10.904747, "description": "Bump in der Forsterstraße", "type": "pothole" },
-        { "lat": 448.365441, "lng": 10.904287 , "description": "Am Vogeltor", "type": "pothole" },
-        { "lat": 48.366351, "lng": 10.903765, "description": "Unebenheiten durch Wurzeln", "type": "ghost" }
+        { "lat": 48.362865, "lng": 10.904747, "description": "Unebenheiten in der Forsterstraße", "type": "ghost" },
+        { "lat": 48.365441, "lng": 10.904287 , "description": "Bump am Willy-Brandt-Platz", "type": "pothole" },
+        { "lat": 48.366351, "lng": 10.903765, "description": "Unebenheiten am Vogeltor", "type": "ghost" }
     ]
 }
