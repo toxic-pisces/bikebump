@@ -165,17 +165,18 @@
             color: white;
         }
 
-        .popup-content {
+        .popup-buttons {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
         }
-        .popup-textarea {
-            width: 200px;
-            height: 100px;
-            margin-bottom: 10px;
+        .popup-save-button, .popup-delete-button {
+            padding: 5px 10px;
+            cursor: pointer;
         }
-        .popup-save-button {
-            align-self: flex-end;
+        .popup-delete-button {
+            background-color: #ff4136;
+            color: white;
+            border: none;
         }
 
         #finishButton {
@@ -255,22 +256,27 @@
                 ghost: { color: 'black', image: '../Assets/geistPACGREEN.png' },
             };
             
-            var selectedType = markerTypes[markerType] || markerTypes.pothole;
+            function createMarkerIcon(type) {
+                var selectedType = markerTypes[type] || markerTypes.pothole;
+                return L.divIcon({
+                    className: 'custom-marker',
+                    html: `<div style="background-color: ${selectedType.color}; width: 30px; height: 30px; border-radius: 50%; background-image: url('${selectedType.image}'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></div>`
+                });
+            }
             
-            var markerIcon = L.divIcon({
-                className: 'custom-marker',
-                html: `<div style="background-color: ${selectedType.color}; width: 30px; height: 30px; border-radius: 50%; background-image: url('${selectedType.image}'); background-size: 20px 20px; background-repeat: no-repeat; background-position: center;"></div>`
-            });
-            
-            var marker = L.marker(latlng, {icon: markerIcon}).addTo(map);
+            var marker = L.marker(latlng, {icon: createMarkerIcon(markerType)}).addTo(map);
             
             marker.description = description || '';
+            marker.markerType = markerType;
             
             function createPopupContent(marker) {
                 return `
                     <div class="popup-content">
                         <textarea class="popup-textarea">${marker.description}</textarea>
-                        <button class="popup-save-button">Save</button>
+                        <div class="popup-buttons">
+                            <button class="popup-save-button">Save</button>
+                            <button class="popup-delete-button">Delete</button>
+                        </div>
                     </div>
                 `;
             }
@@ -284,11 +290,21 @@
                 
                 var textarea = container.querySelector('.popup-textarea');
                 var saveButton = container.querySelector('.popup-save-button');
+                var deleteButton = container.querySelector('.popup-delete-button');
                 
                 L.DomEvent.on(saveButton, 'click', function() {
                     marker.description = textarea.value;
+                    if (marker.markerType === 'ghost') {
+                        marker.markerType = 'pothole';
+                        marker.setIcon(createMarkerIcon('pothole'));
+                    }
                     popup.setContent(createPopupContent(marker));
                     popup.update();
+                    marker.closePopup();
+                });
+                
+                L.DomEvent.on(deleteButton, 'click', function() {
+                    map.removeLayer(marker);
                     marker.closePopup();
                 });
                 
