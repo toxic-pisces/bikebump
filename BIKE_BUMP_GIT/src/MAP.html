@@ -373,6 +373,7 @@
         }
 
         function requestPermission() {
+            
             if (typeof DeviceMotionEvent.requestPermission === "function") {
                 DeviceMotionEvent.requestPermission()
                     .then(permissionState => {
@@ -380,6 +381,20 @@
                             redirectToBumpGo();
                         } else {
                             alert("Permission to access motion sensors was denied.");
+                            redirectToBumpGo();
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                redirectToBumpGo();
+            }
+            if (typeof DeviceOrientationEvent.requestPermission === "function") {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === "granted") {
+                            redirectToBumpGo();
+                        } else {
+                            alert("Permission to access orientation sensors was denied.");
                             redirectToBumpGo();
                         }
                     })
