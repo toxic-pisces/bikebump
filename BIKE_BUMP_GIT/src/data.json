@@ -1,0 +1,11 @@
+{
+    "markerList": [
+        { "lat": 48.370709, "lng": 10.901640, "description": "Hier bin ich gestern von einem Auto mit Türkeiflagge angefahren worden", "type": "pothole" },
+        { "lat": 48.366141, "lng": 10.893870, "description": "Wurde mit einer Bibel beschmissen", "type": "pothole" },
+        { "lat": 48.366747, "lng": 10.894522 , "description": "wollte nur sagen dass ich durchfahren will und hab den miesen drehkick kassiert", "type": "pothole" },
+        { "lat": 48.360990, "lng": 10.904993, "description": "Unebenheiten durch Wurzeln", "type": "pothole" },
+        { "lat": 48.365120, "lng": 10.924091, "description": "aua das tut weh beim drüberfahren", "type": "pothole" },
+        { "lat": 48.369422, "lng": 10.911257, "description": "Baustelle mit abgesperrter Straße", "type": "construction" },
+        { "lat": 48.378239, "lng": 10.884910, "description": "Straßensanierungen", "type": "construction" }
+    ]
+}
